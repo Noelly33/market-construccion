@@ -1,0 +1,18 @@
+.body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; 
+}
+
+.container {
+  flex: 1; 
+  padding-bottom: 40px; 
+}
+
+.footer {
+  text-align: center;
+  padding: 16px;
+  background-color: #eed4b5eb;
+  font-size: 14px;
+}
+

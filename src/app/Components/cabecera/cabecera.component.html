@@ -1,0 +1,30 @@
+<header class="header">
+  <div class="left-section">
+    <button mat-icon-button class="menu-button" aria-label="Menú">
+      <mat-icon>menu</mat-icon>
+    </button>
+    <h1 class="logo">Dionix Materiales</h1>
+  </div>
+
+  <nav class="nav-buttons">
+    <span *ngIf="authService.isLoggedIn()" class="user-info">
+      Bienvenido, {{ authService.getCurrentUser() }}
+    </span>
+ 
+    <button 
+    *ngIf="!authService.isLoggedIn()" 
+    mat-raised-button 
+    class="btnRegistrar" 
+    (click)="registrarUsuario()">
+    Registrarse
+  </button>
+  
+    <button mat-raised-button class="btnlogin"
+      [color]="authService.isLoggedIn() ? 'warn' : 'primary'"
+      (click)="authService.isLoggedIn() ? logout() : navigateToLogin()">
+      {{ authService.isLoggedIn() ? 'Cerrar sesión' : 'Iniciar sesión' }}
+    </button>
+  </nav>
+</header>
+
+  

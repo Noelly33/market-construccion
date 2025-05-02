@@ -1,0 +1,23 @@
+.boton-administrar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 40px;
+    min-width: 140px;
+    padding: 0 16px;
+    border-radius: 20px;
+    background-color: #7c521d;
+    color: white;
+    font-size: 16px;
+}
+
+.boton-administrar mat-icon {
+    margin-right: 8px;
+}
+
+.boton-container {
+    display: flex;
+    justify-content: center; 
+    align-items: center;
+    gap: 20px; 
+}
