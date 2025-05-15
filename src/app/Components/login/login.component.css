@@ -21,7 +21,7 @@ padding: 40px 0;
   font-weight: bold;
   margin-bottom: 20px;
   text-align: center;
-  color: #7c521d;
+  color: #505050;
   text-transform: uppercase;
 }
 
@@ -32,7 +32,7 @@ padding: 40px 0;
 }
 
 button[mat-raised-button] {
-  background-color: #7c521d;
+  background-color: #004057;
   color: white;
   font-family: 'Montserrat', sans-serif;
   font-weight: bold;
@@ -42,6 +42,6 @@ button[mat-raised-button] {
 }
 
 button[mat-raised-button]:hover {
-  background-color: #452f0d;
+  background-color: #004057;
   color: white;
 }

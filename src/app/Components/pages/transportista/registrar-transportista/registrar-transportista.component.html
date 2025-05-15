@@ -1,4 +1,38 @@
-<h1>Registrar Transportista</h1>
-   
-  
-  
+<h2 class="titulo-formulario">Registro de Transportista</h2>
+
+<form (ngSubmit)="guardar()" #registroForm="ngForm" class="formulario-registro">
+  <div class="form-group">
+    <label for="nombre">Nombre</label>
+    <input type="text" id="nombre" [(ngModel)]="transportista.nombre" name="nombre" class="form-control" required />
+  </div>
+
+  <div class="form-group">
+    <label for="correo">Correo</label>
+    <input type="email" id="correo" [(ngModel)]="transportista.correo" name="correo" class="form-control" required />
+  </div>
+
+  <div class="form-group">
+    <label for="cedula">Cédula</label>
+    <input type="text" id="cedula" [(ngModel)]="transportista.cedula" name="cedula" class="form-control" required />
+  </div>
+
+  <div class="form-group">
+    <label for="empresa">Empresa</label>
+    <input type="text" id="empresa" [(ngModel)]="transportista.empresa" name="empresa" class="form-control" required />
+  </div>
+
+  <div class="form-group">
+    <label for="telefono">Teléfono</label>
+    <input type="text" id="telefono" [(ngModel)]="transportista.telefono" name="telefono" class="form-control" required />
+  </div>
+
+  <div class="form-group checkbox-group">
+    <label for="activo">Activo</label>
+    <input type="checkbox" id="activo" [(ngModel)]="transportista.activo" name="activo" />
+  </div>
+
+  <div class="form-buttons">
+    <button type="submit" class="btn btn-primary" [disabled]="!registroForm.valid">Registrar</button>
+    <button type="button" class="btn btn-secondary" (click)="cancelar()">Cancelar</button>
+  </div>
+</form>

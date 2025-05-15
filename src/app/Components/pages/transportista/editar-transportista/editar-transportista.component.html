@@ -1,1 +1,43 @@
-<p>editar-transportista works!</p>
+<h2 class="titulo-editar">Editar Transportista</h2>
+
+<form class="formulario-editar" #editarForm="ngForm">
+  <div class="form-group">
+    <label>Nombre:</label>
+    <input [(ngModel)]="data.nombre" name="nombre" class="form-control" required />
+  </div>
+
+  <div class="form-group">
+    <label>Cédula:</label>
+    <input [(ngModel)]="data.cedula" name="cedula" class="form-control" required />
+  </div>
+
+  <div class="form-group">
+    <label>Correo:</label>
+    <input [(ngModel)]="data.correo" name="correo" class="form-control" required />
+  </div>
+
+  <div class="form-group">
+    <label>Empresa:</label>
+    <input [(ngModel)]="data.empresa" name="empresa" class="form-control" />
+  </div>
+
+  <div class="form-group">
+    <label>Teléfono:</label>
+    <input [(ngModel)]="data.telefono" name="telefono" class="form-control" />
+  </div>
+
+  <div class="form-group">
+    <label>Rol:</label>
+    <input [(ngModel)]="data.rol" name="rol" class="form-control" disabled />
+  </div>
+
+  <div class="form-group checkbox-group">
+    <label>Activo:</label>
+    <input type="checkbox" [(ngModel)]="data.activo" name="activo" />
+  </div>
+
+  <div class="form-buttons">
+    <button type="button" class="btn btn-primary" (click)="guardar()">Guardar</button>
+    <button type="button" class="btn btn-secondary" (click)="cancelar()">Cancelar</button>
+  </div>
+</form>

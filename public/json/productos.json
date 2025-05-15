@@ -1,0 +1,10 @@
+[
+    { "id": 1, "nombre": "Cemento", "precio": 19.99 , "imagen": "cemento.jpg"},
+    { "id": 2, "nombre": "Ladrillos", "precio": 17.50 , "imagen": "ladrillos.jpg"},
+    { "id": 3, "nombre": "Bloques", "precio": 18.99 , "imagen": "bloques.jpg"},
+    { "id": 4, "nombre": "Yeso", "precio": 29.90 , "imagen": "yeso.jpg"},
+    { "id": 5, "nombre": "Vigas de Acero", "precio": 34.80 , "imagen": "vigas_acero.jpg"},
+    { "id": 6, "nombre": "Estribos", "precio": 12.00 , "imagen": "estribos.jpg"},
+    { "id": 7, "nombre": "Piedra Blanca", "precio": 21.99 , "imagen": "piedra_blanca.jpg"},
+    { "id": 8, "nombre": "Varillas Corrugadas", "precio": 34.00 , "imagen": "varillas_corrugadas.jpg"}
+  ]

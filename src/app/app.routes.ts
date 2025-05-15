@@ -13,6 +13,9 @@ import { UsuarioComponent} from './Components/pages/usuario/usuario.component';
 import { RegistrarUsuarioComponent } from './Components/pages/usuario/registrar-usuario/registrar-usuario.component';
 import { EditarUsuarioComponent } from './Components/pages/usuario/editar-usuario/editar-usuario.component';
 import { PaginaprincipalAdminComponent } from './Components/paginaprincipal-admin/paginaprincipal-admin.component';
+import { CatalogoInicioComponent } from './Components/pages/catalogo-inicio/catalogo-inicio.component';
+import { Carrito } from './core/modelo/carrito';
+import { CarritoListarComponent } from './Components/pages/carrito-listar/carrito-listar.component';
 
 
 
@@ -79,5 +82,12 @@ export const routes: Routes = [
         component: EditarUsuarioComponent,
         title: 'Editar Usuario'
       },
-      
+      {path: 'catalogo-inicio',
+        component: CatalogoInicioComponent,
+        title: 'Catalogo de Productos'
+     },
+      {path:'carrito-listar',
+        component: CarritoListarComponent,
+        title: 'Carrito de Compras'
+      }  
 ];

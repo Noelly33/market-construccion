@@ -19,6 +19,10 @@ export class CabeceraComponent {
   constructor (public authService: AuthService,
     private router: Router // Inyectar el servicio de enrutamiento
   ) { } // Inyectar el servicio de autenticación
+  
+  public mostrarCarrito(): boolean {
+    return this.authService.isLoggedIn() && !this.router.url.includes('paginaprincipal-admin');
+  }
 
   logout(): void {
     this.authService.logout();
@@ -32,5 +36,9 @@ export class CabeceraComponent {
   public registrarUsuario():void{
     this.router.navigate(['/registrar-usuario', 0]);
     console.log('Registrar usuario...');
+  }
+
+  public realizarCompra():void{
+    this.router.navigate(['/carrito-listar']);
   }
 }

@@ -1,0 +1,19 @@
+<div class="row separacion-catalogo">
+    @for (item of productos; track item.id) {
+      <div class="col-sm-3 mt-1">
+        <div class="card">
+          <div class="card-body">
+            <img [src]="'img/' + item.imagen" class="img-fluid" />
+            <p class="fw-bold">{{ item.nombre }}</p>
+            <div class="d-flex justify-content-between align-items-center">
+              <button class="btn btn-sm btn-dark" (click)="agregarProducto(item)">
+                <i class="fa fa-shopping-cart"></i> Agregar
+              </button>
+              <small class="fw-bold">${{ item.precio }}</small>
+            </div>
+          </div>
+        </div>
+      </div>
+    }
+  </div>
+  

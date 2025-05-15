@@ -5,11 +5,12 @@ import {MatGridListModule} from '@angular/material/grid-list';
 import { Router } from '@angular/router';
 import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
+import { CatalogoInicioComponent } from '../pages/catalogo-inicio/catalogo-inicio.component';
 
 @Component({
   selector: 'app-paginaprincipal',
   standalone: true,
-  imports: [CommonModule, MatGridListModule, MatButtonModule, MatIconModule],
+  imports: [CommonModule, MatGridListModule, MatButtonModule, MatIconModule, CatalogoInicioComponent],
   templateUrl: './paginaprincipal.component.html',
   styleUrl: './paginaprincipal.component.css'
 })
