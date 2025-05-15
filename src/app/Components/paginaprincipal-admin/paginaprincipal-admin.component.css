@@ -6,7 +6,7 @@
     min-width: 140px;
     padding: 0 16px;
     border-radius: 20px;
-    background-color: #7c521d;
+    background-color: #006a91;
     color: white;
     font-size: 16px;
 }
@@ -20,4 +20,19 @@
     justify-content: center; 
     align-items: center;
     gap: 20px; 
+    color: #004057;
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 40px; /* Aumentamos la separación debajo del título */
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
+}
+
+.boton-container {
+  display: flex;
+  justify-content: center;
+  gap: 20px; /* Espacio entre los botones */
+  flex-wrap: wrap;
 }

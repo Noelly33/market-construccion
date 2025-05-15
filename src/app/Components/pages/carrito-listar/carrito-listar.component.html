@@ -1,0 +1,71 @@
+<div class="container mt-3">
+    <h5>Mi carrito</h5>
+    <hr />
+    <div class="row">
+      
+      <!-- Sección izquierda: lista del carrito -->
+      <div class="col-sm-9">
+        <div class="card">
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table table-bordered table-striped text-center">
+                <thead>
+                  <tr>
+                    <th>Producto</th>
+                    <th>Imagen</th>
+                    <th>Precio ($)</th>
+                    <th>Cantidad</th>
+                    <th>Importe</th>
+                    <th>Acción</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <!-- Iteración de productos -->
+                  <tr *ngFor="let item of listCarrito; index as i">
+                    <td>{{ item.producto.nombre }}</td>
+                    <td>
+                      <img [src]="'img/' + item.producto.imagen" width="50" height="60" />
+                    </td>
+                    <td>{{ item.producto.precio }}</td>
+                    <td>{{ item.cantidad }}</td>
+                    <td>{{ item.producto.precio * item.cantidad }}</td>
+                    <td>
+                      <button (click)="eliminarItem(i)" type="button" class="btn btn-danger btn-sm">
+                        <i class="fa fa-trash"></i>
+                      </button>
+                    </td>
+                  </tr>
+  
+                  <!-- Si no hay productos -->
+                  <tr *ngIf="listCarrito.length === 0">
+                    <td colspan="6" class="text-center">No hay productos</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+  
+      <!-- Sección derecha: resumen -->
+      <div class="col-sm-3">
+        <div class="card">
+          <div class="card-body">
+            <h5>RESUMEN COMPRA</h5>
+            <hr />
+            <div class="d-flex justify-content-between my-4">
+              <p class="mb-2">Total</p>
+              <p class="mb-2">$ {{ calcularTotal() }}</p>
+            </div>
+            <button type="button" class="btn btn-dark btn-block">
+              <div class="d-flex justify-content-between">
+                <span>Procesar</span>
+              </div>
+            </button>
+          </div>
+        </div>
+      </div>
+  
+    </div>
+  </div>
+  

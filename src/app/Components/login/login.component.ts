@@ -37,7 +37,7 @@ export class LoginComponent {
       if (role === 'admin') {
         this.router.navigate(['/paginaprincipal-admin']); // Redirigir a Dashboard de Admin
       } else if (role === 'user') {
-        this.router.navigate(['/paginaprincipal']); // Redirigir a página de usuario normal
+        this.router.navigate(['/catalogo-inicio']); // Redirigir a página de usuario normal
       }
   
     } else {

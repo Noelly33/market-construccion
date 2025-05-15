@@ -1,1 +1,38 @@
-<p>transportista works!</p>
+<div>
+  <h2 class="usuario-title">Gestión de Transportistas</h2>
+  <div style="display: flex; justify-content: center; align-items: center; margin-bottom: 20px;">
+    <input type="text" [(ngModel)]="filtro" placeholder="Buscar..." class="form-control" 
+           style="width: 300px; margin-right: 12px;" />
+    <button class="btn btn-success" (click)="abrirRegistro()">Registrar</button>
+  </div>
+
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th>Nombre</th>
+        <th>Cédula</th>
+        <th>Correo</th>
+        <th>Empresa</th>
+        <th>Teléfono</th>
+        <th>Activo</th>
+        <th *ngIf="transportistaSeleccionado">Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let dato of datosFiltrados"
+          (click)="seleccionarUsuario(dato)"
+          [class.selected]="transportistaSeleccionado?.id === dato.id">
+        <td>{{ dato.nombre }}</td>
+        <td>{{ dato.cedula }}</td>
+        <td>{{ dato.correo }}</td>
+        <td>{{ dato.empresa }}</td>
+        <td>{{ dato.telefono }}</td>
+        <td>{{ dato.activo ? 'Sí' : 'No' }}</td>
+        <td *ngIf="transportistaSeleccionado?.id === dato.id">
+          <button class="btn btn-sm btn-primary me-1" (click)="editar(dato); $event.stopPropagation()">Modificar</button>
+          <button class="btn btn-sm btn-danger" (click)="eliminar(dato.id); $event.stopPropagation()">Eliminar</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
