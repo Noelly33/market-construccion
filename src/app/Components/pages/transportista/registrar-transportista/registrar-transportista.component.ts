@@ -13,6 +13,9 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './registrar-transportista.component.css'
 })
 export class RegistrarTransportistaComponent {
+
+  constructor(private dialogRef: MatDialogRef<RegistrarTransportistaComponent>) {}
+
       transportista = {
         nombre: '',
         correo: '',
@@ -22,8 +25,7 @@ export class RegistrarTransportistaComponent {
         activo: true,
         rol: 'Transportista'
       };
-      constructor(private dialogRef: MatDialogRef<RegistrarTransportistaComponent>) {}
-
+      
   guardar() {
     this.dialogRef.close(this.transportista);
   }
