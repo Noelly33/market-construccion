@@ -1,17 +1,18 @@
 import { Component } from '@angular/core';
-import {MatButtonModule} from '@angular/material/button';
-import {MatInputModule} from '@angular/material/input';
-import {MatFormFieldModule} from '@angular/material/form-field';
-import {MatCardModule} from '@angular/material/card';
+import { MatButtonModule } from '@angular/material/button';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatCardModule } from '@angular/material/card';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
+import { ClienteService } from '../../services/cliente.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [ MatButtonModule, MatInputModule, MatFormFieldModule, MatCardModule, FormsModule ],
+  imports: [MatButtonModule, MatInputModule, MatFormFieldModule, MatCardModule, FormsModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
@@ -21,30 +22,37 @@ export class LoginComponent {
 
   constructor(
     private authService: AuthService,
+    private clienteService: ClienteService,
     private snackBar: MatSnackBar,
     private router: Router
   ) {}
 
-  public IniciarSesion() :void {
-    console.log('Validando:', this.username, this.password); // Debug
-  
+  public IniciarSesion(): void {
+    console.log('Validando:', this.username, this.password);
+
+    // 1. Intentar login como usuario estático (admin/user)
     if (this.authService.login(this.username, this.password)) {
-      this.snackBar.open('Acceso concedido', 'Cerrar', { duration: 2000 });
+      this.snackBar.open('Acceso concedido (sistema)', 'Cerrar', { duration: 2000 });
 
       const role = this.authService.getCurrentRole();
-      console.log('Rol detectado:', role); // Debug opcional
-  
       if (role === 'admin') {
-        this.router.navigate(['/paginaprincipal-admin']); // Redirigir a Dashboard de Admin
-      } else if (role === 'user') {
-        this.router.navigate(['/catalogo-inicio']); // Redirigir a página de usuario normal
+        this.router.navigate(['/paginaprincipal-admin']);
+      } else {
+        this.router.navigate(['/catalogo-inicio']);
       }
-  
+
+    // 2. Si falla, intentar login como cliente registrado
+    } else if (this.clienteService.Login(this.username, this.password)) {
+      this.snackBar.open('Acceso concedido (cliente)', 'Cerrar', { duration: 2000 });
+
+      // Puedes guardar manualmente el usuario logeado si lo necesitas
+      const cliente = this.clienteService.getClienteActual(this.username);
+      console.log('Cliente logueado:', cliente);
+
+      this.router.navigate(['/catalogo-inicio']);
+
     } else {
-      this.snackBar.open('Error: Usuario o contraseña incorrectos', 'Cerrar', { duration: 3000 });
+      this.snackBar.open('Usuario o contraseña incorrectos', 'Cerrar', { duration: 3000 });
     }
   }
 }
-
-
-

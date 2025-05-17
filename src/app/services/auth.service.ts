@@ -29,6 +29,17 @@ export class AuthService {
       this.currentRoleSubject.next(user.role); // Guardar rol
       return true;
     }
+
+const clientes = JSON.parse(localStorage.getItem('clientes_registrados') || '[]');
+  const cliente = clientes.find((c: any) => c.username === username && c.password === password);
+
+  if (cliente) {
+    this.isAuthenticatedSubject.next(true);
+    this.currentUserSubject.next(cliente.nombre);
+    this.currentRoleSubject.next(cliente.role); // 'user'
+    return true;
+  }
+
     return false;
   }
 
