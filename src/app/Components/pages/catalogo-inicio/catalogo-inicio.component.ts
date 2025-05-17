@@ -10,28 +10,29 @@ import { CarritoService } from '../../../services/carrito.service';
   templateUrl: './catalogo-inicio.component.html',
   styleUrl: './catalogo-inicio.component.css'
 })
-export class CatalogoInicioComponent implements OnInit {
 
-  private productoService = inject(ProductoService);  
-  private carritoService = inject(CarritoService);
-  productos: Producto[] = [];
+  export class CatalogoInicioComponent implements OnInit {
 
-  ngOnInit(): void {
-    this.getProductos();
-      
-  }
-  getProductos() {
-    this.productoService.getProductos().subscribe({
-      next: (data) => {
-        this.productos = data;
-        console.error(this.productos);
-      }, error: (e) => {
-        console.error(e);
-      }
-    })
-  }
-  agregarProducto(item: Producto){
-    this.carritoService.agregar(item);
-  }
+    private productoService = inject(ProductoService);  
+    private carritoService = inject(CarritoService);
+    productos: Producto[] = [];
+
+    ngOnInit(): void {
+      this.getProductos();
+        
+    }
+    getProductos() {
+      this.productoService.getProductos().subscribe({
+        next: (data) => {
+          this.productos = data;
+          console.error(this.productos);
+        }, error: (e) => {
+          console.error(e);
+        }
+      })
+    }
+    agregarProducto(item: Producto){
+      this.carritoService.agregar(item);
+    }
 }
 
