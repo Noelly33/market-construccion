@@ -11,6 +11,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
   styleUrl: './editar-transportista.component.css'
 })
 export class EditarTransportistaComponent {
+  
   constructor(
     private dialogRef: MatDialogRef<EditarTransportistaComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any

@@ -4,6 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RegistrarTransportistaComponent } from './registrar-transportista/registrar-transportista.component';
+import { EditarTransportistaComponent } from './editar-transportista/editar-transportista.component';
 
 @Component({
   selector: 'app-transportista',
@@ -15,21 +16,16 @@ import { RegistrarTransportistaComponent } from './registrar-transportista/regis
 })
 export class TransportistaComponent {
 
-  filtro: string ='';
-  transportistaSeleccionado: any = null;
+    filtro: string ='';
 
-  transportistas = [{
-    id: 1,
-      nombre: 'Carlos Pérez',
-      correo: 'cperez@mail.com',
-      cedula: '0923456789',
-      empresa: 'TransLogistic',
-      telefono: '0991234567',
-      activo: true,
-      rol: 'Transportista'
-  }
+    transportistaSeleccionado: any = null;
+
+  transportistas = [
+    {id: 1,nombre: 'Carlos Pérez',correo: 'cperez@mail.com',cedula: '0923456789',empresa: 'TransLogistic', telefono: '0991234567', activo: true, rol: 'Transportista'}
   ];
-     get datosFiltrados() {
+
+
+    get datosFiltrados() {
     return this.transportistas.filter(t =>
       t.nombre.toLowerCase().includes(this.filtro.toLowerCase()) ||
       t.empresa.toLowerCase().includes(this.filtro.toLowerCase()) ||
@@ -39,12 +35,12 @@ export class TransportistaComponent {
 
   constructor(private dialog: MatDialog, private router: Router) {}
 
-  seleccionarUsuario(transportista: any) {
+    seleccionarUsuario(transportista: any) {
     this.transportistaSeleccionado =
       this.transportistaSeleccionado?.id === transportista.id ? null : transportista;
   }
 
-  abrirRegistro() {
+    abrirRegistro() {
     const dialogRef = this.dialog.open(RegistrarTransportistaComponent, {
       width: '500px'
     });
@@ -57,14 +53,24 @@ export class TransportistaComponent {
     });
   }
 
-  editar(dato: any) {
-     this.router.navigate(['/transportista/editar-transportista', dato.id]);
+     editar(dato: any) {
+    const dialogRef = this.dialog.open(EditarTransportistaComponent, {
+      width: '400px',
+      data: { ...dato }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        const index = this.transportistas.findIndex(d => d.id === result.id);
+        if (index !== -1) {
+          this.transportistas[index] = result;
+        }
+      }
+    });
   }
 
-  eliminar(id: number) {
+    eliminar(id: number) {
     this.transportistas = this.transportistas.filter(t => t.id !== id);
     this.transportistaSeleccionado = null;
   }
-
-
 }
