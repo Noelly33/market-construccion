@@ -24,7 +24,7 @@ export class CatalogoInicioComponent implements OnInit {
     this.productoService.getProductos().subscribe({
       next: (data) => {
         this.productos = data;
-        console.error(this.productos);
+        //console.error(this.productos);
       }, error: (e) => {
         console.error(e);
       }
