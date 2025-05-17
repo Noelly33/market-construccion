@@ -123,6 +123,6 @@
   }
 
   .selected {
-    background-color: #004057 !important;
+    background-color: #004057 ;
     border-left: 4px solid #379cc0;
   }

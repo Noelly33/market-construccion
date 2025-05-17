@@ -15,7 +15,7 @@ import { CatalogoInicioComponent } from '../pages/catalogo-inicio/catalogo-inici
   styleUrl: './paginaprincipal.component.css'
 })
 export class PaginaprincipalComponent {
-constructor(public authService: AuthService, private router:Router) { } // Inyectar el servicio de autenticación
+constructor(public authService: AuthService, private router:Router) { } 
 
 public realizarcompra():void{
   this.router.navigate(['/compra']);

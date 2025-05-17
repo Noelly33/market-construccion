@@ -1,0 +1,25 @@
+<h2 class="titulo-formulario">Seleccionar Transportista</h2>
+
+<div class="form-group">
+  <label for="transportista">Transportista:</label>
+  <select id="transportista" [(ngModel)]="transportistaSeleccionado" class="form-control">
+    <option *ngFor="let t of transportistas" [ngValue]="t">
+      {{ t.nombre }} - {{ t.cedula }}
+    </option>
+  </select>
+</div>
+
+<div *ngIf="transportistaSeleccionado">
+  <h3>Datos del Transportista Seleccionado</h3>
+  <p><strong>Nombre:</strong> {{ transportistaSeleccionado.nombre }}</p>
+  <p><strong>Correo:</strong> {{ transportistaSeleccionado.correo }}</p>
+  <p><strong>Cédula:</strong> {{ transportistaSeleccionado.cedula }}</p>
+  <p><strong>Empresa:</strong> {{ transportistaSeleccionado.empresa }}</p>
+  <p><strong>Teléfono:</strong> {{ transportistaSeleccionado.telefono }}</p>
+</div>
+
+<div class="form-buttons mt-3">
+  <button class="btn btn-primary" (click)="confirmarSeleccion()">Confirmar</button>
+  <button class="btn btn-secondary" (click)="cancelar()">Cancelar</button>
+</div>
+

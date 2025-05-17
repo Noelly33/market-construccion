@@ -12,6 +12,7 @@ import { FormsModule } from '@angular/forms';
   templateUrl: './registrar-transportista.component.html',
   styleUrl: './registrar-transportista.component.css'
 })
+
 export class RegistrarTransportistaComponent {
 
   constructor(private dialogRef: MatDialogRef<RegistrarTransportistaComponent>) {}
