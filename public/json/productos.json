@@ -7,4 +7,5 @@
     { "id": 6, "nombre": "Estribos", "precio": 12.00 , "imagen": "estribos.jpg"},
     { "id": 7, "nombre": "Piedra Blanca", "precio": 21.99 , "imagen": "piedra_blanca.jpg"},
     { "id": 8, "nombre": "Varillas Corrugadas", "precio": 34.00 , "imagen": "varillas_corrugadas.jpg"}
-  ]
+]
+   

@@ -1,10 +1,12 @@
-import { Component } from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RegistrarTransportistaComponent } from './registrar-transportista/registrar-transportista.component';
 import { EditarTransportistaComponent } from './editar-transportista/editar-transportista.component';
+import { TransportistaService } from '../../../services/transportista.service';
+import { Transportista } from '../../../core/modelo/transportista';
 
 @Component({
   selector: 'app-transportista',
@@ -14,18 +16,26 @@ import { EditarTransportistaComponent } from './editar-transportista/editar-tran
   templateUrl: './transportista.component.html',
   styleUrl: './transportista.component.css'
 })
-export class TransportistaComponent {
 
-    filtro: string ='';
+export class TransportistaComponent implements OnInit {
+  
+  filtro: string = '';
+  transportistas: Transportista[] = [];
+  transportistaSeleccionado: Transportista | null = null;
 
-    transportistaSeleccionado: any = null;
+  constructor(
+    private dialog: MatDialog,
+    private router: Router,
+    private transportistaService: TransportistaService
+  ) {}
 
-  transportistas = [
-    {id: 1,nombre: 'Carlos Pérez',correo: 'cperez@mail.com',cedula: '0923456789',empresa: 'TransLogistic', telefono: '0991234567', activo: true, rol: 'Transportista'}
-  ];
+  ngOnInit() {
+    this.transportistaService.getTransportistas().subscribe(data => {
+      this.transportistas = data;
+    });
+  }
 
-
-    get datosFiltrados() {
+  get datosFiltrados() {
     return this.transportistas.filter(t =>
       t.nombre.toLowerCase().includes(this.filtro.toLowerCase()) ||
       t.empresa.toLowerCase().includes(this.filtro.toLowerCase()) ||
@@ -33,44 +43,38 @@ export class TransportistaComponent {
     );
   }
 
-  constructor(private dialog: MatDialog, private router: Router) {}
-
-    seleccionarUsuario(transportista: any) {
-    this.transportistaSeleccionado =
-      this.transportistaSeleccionado?.id === transportista.id ? null : transportista;
+  seleccionarUsuario(t: Transportista) {
+    this.transportistaSeleccionado = this.transportistaSeleccionado?.id === t.id ? null : t;
   }
 
-    abrirRegistro() {
+  abrirRegistro() {
     const dialogRef = this.dialog.open(RegistrarTransportistaComponent, {
       width: '500px'
     });
 
-    dialogRef.afterClosed().subscribe((nuevo: any) => {
+    dialogRef.afterClosed().subscribe((nuevo: Transportista) => {
       if (nuevo) {
-        const nuevoId = this.transportistas.length ? Math.max(...this.transportistas.map(t => t.id)) + 1 : 1;
-        this.transportistas.push({ id: nuevoId, ...nuevo });
+        this.transportistaService.agregarTransportista(nuevo);
+        this.transportistaSeleccionado = null;
       }
     });
   }
 
-     editar(dato: any) {
+  editar(t: Transportista) {
     const dialogRef = this.dialog.open(EditarTransportistaComponent, {
       width: '400px',
-      data: { ...dato }
+      data: { ...t }
     });
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        const index = this.transportistas.findIndex(d => d.id === result.id);
-        if (index !== -1) {
-          this.transportistas[index] = result;
-        }
+        this.transportistaService.actualizarTransportista(result);
       }
     });
   }
 
-    eliminar(id: number) {
-    this.transportistas = this.transportistas.filter(t => t.id !== id);
+  eliminar(id: number) {
+    this.transportistaService.eliminarTransportista(id);
     this.transportistaSeleccionado = null;
   }
 }

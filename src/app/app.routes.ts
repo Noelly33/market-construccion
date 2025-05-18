@@ -16,6 +16,7 @@ import { PaginaprincipalAdminComponent } from './Components/paginaprincipal-admi
 import { CatalogoInicioComponent } from './Components/pages/catalogo-inicio/catalogo-inicio.component';
 import { Carrito } from './core/modelo/carrito';
 import { CarritoListarComponent } from './Components/pages/carrito-listar/carrito-listar.component';
+import { PagoFinalComponent } from './Components/pages/pago-final/pago-final.component';
 
 
 
@@ -89,5 +90,10 @@ export const routes: Routes = [
       {path:'carrito-listar',
         component: CarritoListarComponent,
         title: 'Carrito de Compras'
-      }  
+      },
+      {
+       path: 'pago-final',
+       component: PagoFinalComponent
+     }
+
 ];

@@ -1,0 +1,28 @@
+.pago-form {
+display: flex;
+flex-direction: column;
+gap: 1rem;
+width: 300px;
+margin: 2rem auto;
+padding: 1rem;
+}
+
+.mensaje-exito {
+max-width: 300px;
+margin: 2rem auto;
+padding: 16px;
+background-color: #d4edda;
+border: 1px solid #28a745;
+border-radius: 6px;
+color: #155724;
+display: flex;
+align-items: center;
+gap: 10px;
+font-weight: 600;
+}
+
+.icono-exito {
+font-size: 28px;
+color: #28a745;
+}
+

@@ -1,0 +1,51 @@
+
+<div *ngIf="mostrarFormularioDomicilio()" [formGroup]="direccionForm">
+  <mat-form-field appearance="fill" class="w-100 mb-3">
+    <mat-label>Dirección de entrega</mat-label>
+    <input matInput formControlName="direccion" placeholder="Ingresa tu dirección" />
+  </mat-form-field>
+
+  <mat-form-field appearance="fill" class="w-100 mb-3">
+    <mat-label>Transportista</mat-label>
+    <select matInput formControlName="transportista">
+      <option value="" disabled>Seleccione un transportista</option>
+      <option *ngFor="let t of transportistas" [value]="t">{{ t }}</option>
+    </select>
+  </mat-form-field>
+</div>
+<div *ngIf="!compraExitosa">
+  <form [formGroup]="pagoForm" (ngSubmit)="enviarPago()" class="pago-form">
+    <mat-form-field appearance="outline">
+      <mat-label>Nombre del titular</mat-label>
+      <input matInput formControlName="nombre" required>
+    </mat-form-field>
+<mat-form-field appearance="outline">
+  <mat-label>Número de tarjeta</mat-label>
+  <input matInput formControlName="numeroTarjeta" required maxlength="16">
+</mat-form-field>
+
+<mat-form-field appearance="outline">
+  <mat-label>Fecha de expiración (MM/AA)</mat-label>
+  <input matInput formControlName="fechaExpiracion" placeholder="MM/AA" required>
+</mat-form-field>
+
+<mat-form-field appearance="outline">
+  <mat-label>CVV</mat-label>
+  <input matInput formControlName="cvv" required maxlength="3">
+</mat-form-field>
+
+<button mat-raised-button color="primary" type="submit">Pagar</button>
+
+  </form>
+</div>
+<mat-card *ngIf="compraExitosa" class="mensaje-exito">
+  <div class="mensaje-contenido">
+    <mat-icon class="icono-exito" color="primary">check_circle</mat-icon>
+    <div>
+      <h2>¡Compra Exitosa!</h2>
+      <p>Gracias por su compra. Recibirá un comprobante al correo registrado.</p>
+    </div>
+  </div>
+</mat-card>
+
+

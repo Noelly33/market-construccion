@@ -10,6 +10,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
   templateUrl: './editar-transportista.component.html',
   styleUrl: './editar-transportista.component.css'
 })
+
 export class EditarTransportistaComponent {
   
   constructor(

@@ -18,11 +18,17 @@ export class PaginaprincipalAdminComponent {
 
   public administrarTransportista():void{
     this.router.navigate(['transportista']);
-    console.log('Ver transportistas...'); // Debug
+    console.log('Ver transportistas...'); 
   }
 
   public administrarUsuario():void{
     this.router.navigate(['usuario']);
-    console.log('Ver usuarios...'); // Debug
+    console.log('Ver usuarios...'); 
   }
+
+  public administrarProducto(): void {
+    this.router.navigate(['producto']);
+    console.log('Ver productos...'); 
+  }
+  
 }
