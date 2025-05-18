@@ -24,7 +24,7 @@ export class ClienteService {
   registrarCliente(clienteData: any): boolean {
     const clientes = JSON.parse(localStorage.getItem(this.STORAGE_KEY) || '[]');
 
-    // Cambiado: verificar username duplicado, no email
+    
     if (clientes.some((c: any) => c.username === clienteData.username)) {
       return false; // Username ya existe
     }
@@ -40,7 +40,7 @@ export class ClienteService {
     return true; // Registro exitoso
   }
 
-  // Login usando username en vez de email
+ 
   Login(username: string, password: string): boolean {
     const clientes = JSON.parse(localStorage.getItem(this.STORAGE_KEY) || '[]');
     const cliente = clientes.find((c: any) => c.username === username && c.password === password);

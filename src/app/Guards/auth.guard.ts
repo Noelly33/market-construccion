@@ -1,11 +1,11 @@
 import { CanActivateFn } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 import { inject } from '@angular/core'; // Necesario para acceder a los servicios en función
-import { Router } from '@angular/router';  // Asegúrate de importar Router
+import { Router } from '@angular/router';  
 
-// Definimos la función del guard como CanActivateFn
+
 export const authGuard: CanActivateFn = (route, state) => {
-  // Accedemos a los servicios mediante 'inject'
+
   const authService = inject(AuthService);
   const router = inject(Router);
   
