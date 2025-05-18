@@ -30,7 +30,7 @@ export class LoginComponent {
   public IniciarSesion(): void {
     console.log('Validando:', this.username, this.password);
 
-    // 1. Intentar login como usuario estático (admin/user)
+    // login como usuario estático (admin/user)
     if (this.authService.login(this.username, this.password)) {
       this.snackBar.open('Acceso concedido (sistema)', 'Cerrar', { duration: 2000 });
 
@@ -41,11 +41,11 @@ export class LoginComponent {
         this.router.navigate(['/catalogo-inicio']);
       }
 
-    // 2. Si falla, intentar login como cliente registrado
+    // login como cliente registrado
     } else if (this.clienteService.Login(this.username, this.password)) {
       this.snackBar.open('Acceso concedido (cliente)', 'Cerrar', { duration: 2000 });
 
-      // Puedes guardar manualmente el usuario logeado si lo necesitas
+     
       const cliente = this.clienteService.getClienteActual(this.username);
       console.log('Cliente logueado:', cliente);
 
