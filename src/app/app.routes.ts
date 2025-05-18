@@ -59,7 +59,7 @@ export const routes: Routes = [
         title: 'Registrar Transportista'
       },
       {
-        path:'trasportista/editar-transportista/:id',
+        path:'transportista/editar-transportista/:id',
         component: EditarTransportistaComponent,
         title: 'Editar Transportista'
       },

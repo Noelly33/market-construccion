@@ -36,6 +36,19 @@ export class AuthService {
       return false;
     }
 
+const clientes = JSON.parse(localStorage.getItem('clientes_registrados') || '[]');
+  const cliente = clientes.find((c: any) => c.username === username && c.password === password);
+
+  if (cliente) {
+    this.isAuthenticatedSubject.next(true);
+    this.currentUserSubject.next(cliente.nombre);
+    this.currentRoleSubject.next(cliente.role); // 'user'
+    return true;
+  }
+
+    return false;
+  }
+
     logout(): void {
       this.isAuthenticatedSubject.next(false);
       this.currentUserSubject.next('');

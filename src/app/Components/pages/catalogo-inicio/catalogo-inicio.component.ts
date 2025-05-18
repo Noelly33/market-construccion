@@ -13,6 +13,7 @@ import { CarritoService } from '../../../services/carrito.service';
 
   export class CatalogoInicioComponent implements OnInit {
 
+
     private productoService = inject(ProductoService);  
     private carritoService = inject(CarritoService);
     productos: Producto[] = [];
