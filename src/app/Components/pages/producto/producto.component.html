@@ -1,1 +1,38 @@
+<div class="container">
+  <h2 class="usuario-title">Gestión de Productos</h2>
+
+  <div style="display: flex; justify-content: center; margin-bottom: 20px;">
+    <button class="btn btn-success" (click)="abrirRegistro()">Registrar Producto</button>
+  </div>
+
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th>Nombre</th>
+        <th>Precio ($)</th>
+        <th>Imagen</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let p of productos">
+        <td>{{ p.nombre }}</td>
+        <td>{{ p.precio }}</td>
+        <td>
+          <div class="form-group" *ngIf="">
+            <label>Vista previa:</label><br />
+            <img [src]="" alt="Vista previa" width="100" height="100" />
+          </div>
+        </td>
+        <td>
+          <button class="btn btn-sm btn-primary me-1" (click)="editar(p)">Modificar</button>
+          <button class="btn btn-sm btn-danger" (click)="eliminar(p.id)">Eliminar</button>
+        </td>
+      </tr>
+      <tr *ngIf="productos.length === 0">
+        <td colspan="4" class="text-center">No hay productos registrados</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
 
