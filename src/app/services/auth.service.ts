@@ -35,10 +35,6 @@ export class AuthService {
         return { success: true, message: 'Acceso concedido (sistema)', role: user.role};
       }
 
-    
-
-
-
   const clientes = JSON.parse(localStorage.getItem('clientes_registrados') || '[]');
   const cliente = clientes.find((c: any) => c.username === username && c.password === password);
 
@@ -59,7 +55,7 @@ export class AuthService {
     return { success: false, message: 'Usuario o contraseña incorrectos' };
   }
 
-    logout(): void {
+     logout(): void {
       this.isAuthenticatedSubject.next(false);
       this.currentUserSubject.next('');
       this.currentRoleSubject.next(''); 
@@ -79,3 +75,7 @@ export class AuthService {
 
     
 }
+    
+  
+
+  
