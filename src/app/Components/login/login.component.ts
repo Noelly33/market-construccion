@@ -28,31 +28,22 @@ export class LoginComponent {
   ) {}
 
   public IniciarSesion(): void {
-    console.log('Validando:', this.username, this.password);
+  console.log('Validando:', this.username, this.password);
 
-    // 1. Intentar login como usuario estático (admin/user)
-    if (this.authService.login(this.username, this.password)) {
-      this.snackBar.open('Acceso concedido (sistema)', 'Cerrar', { duration: 2000 });
+  const resultado = this.authService.login(this.username, this.password);
 
-      const role = this.authService.getCurrentRole();
-      if (role === 'admin') {
-        this.router.navigate(['/paginaprincipal-admin']);
-      } else {
-        this.router.navigate(['/catalogo-inicio']);
-      }
+  if (resultado.success) {
+    this.snackBar.open(resultado.message, 'Cerrar', { duration: 2000 });
 
-    // 2. Si falla, intentar login como cliente registrado
-    } else if (this.clienteService.Login(this.username, this.password)) {
-      this.snackBar.open('Acceso concedido (cliente)', 'Cerrar', { duration: 2000 });
-
-      // Puedes guardar manualmente el usuario logeado si lo necesitas
-      const cliente = this.clienteService.getClienteActual(this.username);
-      console.log('Cliente logueado:', cliente);
-
-      this.router.navigate(['/catalogo-inicio']);
-
+    if (resultado.role === 'admin') {
+      this.router.navigate(['/paginaprincipal-admin']);
     } else {
-      this.snackBar.open('Usuario o contraseña incorrectos', 'Cerrar', { duration: 3000 });
+      this.router.navigate(['/catalogo-inicio']);
     }
+  } else {
+    // Muestra mensaje de cuenta inactiva o error
+    this.snackBar.open(resultado.message, 'Cerrar', { duration: 3000 });
   }
+}
+
 }

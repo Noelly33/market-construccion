@@ -1,1 +1,37 @@
-<p>usuario works!</p>
+<h2>Usuarios Registrados</h2>
+
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <th>Nombre</th>
+      <th>Username</th>
+      <th>Dirección</th>
+      <th>Teléfono</th>
+      <th>Estado</th>
+      <th>Fecha Registro</th>
+      <th *ngIf="usuarioSeleccionado">Acciones</th>
+      
+    </tr>
+  </thead>
+  <tbody>
+   <tr *ngFor="let u of usuarios"
+        [class.seleccionado]="usuarioSeleccionado?.username === u.username"
+        (click)="seleccionarUsuario(u)">
+        <td>{{ u.nombre }}</td>
+        <td>{{ u.username }}</td>
+        <td>{{ u.direccion }}</td>
+        <td>{{ u.telefono }}</td>
+        <td>{{ u.activo ? 'Activo' : 'Inactivo' }}</td>
+        <td>{{ u.fechaRegistro | date:'fullDate' }}</td>        
+        <td *ngIf="usuarioSeleccionado?.id === u.id">
+          <button class="btn btn-editar" (click)="editarUsuario(usuarioSeleccionado)">Editar</button>
+        </td>
+
+    </tr>
+  </tbody>
+</table>
+
+
+
+
+

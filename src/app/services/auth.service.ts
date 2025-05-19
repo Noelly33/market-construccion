@@ -22,7 +22,7 @@ export class AuthService {
     currentUser$ = this.currentUserSubject.asObservable();
     currentRole$ = this.currentRoleSubject.asObservable();
 
-    login(username: string, password: string): boolean {
+    login(username: string, password: string):{ success: boolean, message: string, role?: string } {
       const user = this.validUsers.find(u => 
         u.username === username && u.password === password
       );
@@ -31,20 +31,29 @@ export class AuthService {
         this.isAuthenticatedSubject.next(true);
         this.currentUserSubject.next(user.name);
         this.currentRoleSubject.next(user.role);
-        return true;
+        localStorage.setItem('usuario_actual', JSON.stringify(user));
+        return { success: true, message: 'Acceso concedido (sistema)', role: user.role};
       }
 
-      const clientes = JSON.parse(localStorage.getItem('clientes_registrados') || '[]');
-      const cliente = clientes.find((c: any) => c.username === username && c.password === password);
+  const clientes = JSON.parse(localStorage.getItem('clientes_registrados') || '[]');
+  const cliente = clientes.find((c: any) => c.username === username && c.password === password);
 
-      if (cliente) {
-        this.isAuthenticatedSubject.next(true);
-        this.currentUserSubject.next(cliente.nombre);
-        this.currentRoleSubject.next(cliente.role); // 'user'
-        return true;
-      }
-        return false;
+  if (cliente) {
+    
+
+    if(!cliente.activo) {
+      
+      return { success: false, message: 'Tu cuenta está inactiva. No puedes iniciar sesión.' };
     }
+
+    this.isAuthenticatedSubject.next(true);
+    this.currentUserSubject.next(cliente.nombre);
+    this.currentRoleSubject.next(cliente.role); // 'user'
+    return { success: true, message: 'Acceso concedido (cliente)', role: cliente.role };
+  }
+  
+    return { success: false, message: 'Usuario o contraseña incorrectos' };
+  }
 
      logout(): void {
       this.isAuthenticatedSubject.next(false);
@@ -63,6 +72,8 @@ export class AuthService {
     isLoggedIn(): boolean {
       return this.isAuthenticatedSubject.value;
     }
+
+    
 }
     
   
