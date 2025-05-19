@@ -1,13 +1,13 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CarritoService } from '../../../services/carrito.service';
-import { Carrito } from '../../../core/modelo/carrito';
+import { Carrito as CarritoModel} from '../../../core/modelo/carrito';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { PagoFinalComponent } from '../pago-final/pago-final.component';  
 import { TransportistaService } from '../../../services/transportista.service';
 import { FormsModule } from '@angular/forms';
 import { Transportista } from '../../../core/modelo/transportista';
-
+import { Producto } from '../../../core/modelo/producto';
 
 
   @Component({
@@ -18,6 +18,7 @@ import { Transportista } from '../../../core/modelo/transportista';
     styleUrls: ['./carrito-listar.component.css']
   })
     export class CarritoListarComponent implements OnInit {
+
 
       constructor(private dialog: MatDialog,
       private carritoService: CarritoService,
@@ -74,6 +75,12 @@ import { Transportista } from '../../../core/modelo/transportista';
         }
       });
   }
-}
+
   
 
+}
+  
+export interface Carrito {
+  producto: Producto;
+  cantidad: number;
+}
