@@ -33,10 +33,9 @@ export class AuthService {
         this.currentRoleSubject.next(user.role);
         return true;
       }
-      return false;
-    }
+   
 
-const clientes = JSON.parse(localStorage.getItem('clientes_registrados') || '[]');
+  const clientes = JSON.parse(localStorage.getItem('clientes_registrados') || '[]');
   const cliente = clientes.find((c: any) => c.username === username && c.password === password);
 
   if (cliente) {
@@ -57,7 +56,7 @@ const clientes = JSON.parse(localStorage.getItem('clientes_registrados') || '[]'
 
     getCurrentUser(): string {
     return this.currentUserSubject.value || 'No hay usuario'; 
-  }
+    }
   
     getCurrentRole(): string {
       return this.currentRoleSubject.value; 
@@ -67,3 +66,4 @@ const clientes = JSON.parse(localStorage.getItem('clientes_registrados') || '[]'
       return this.isAuthenticatedSubject.value;
     }
 }
+
