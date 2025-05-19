@@ -1,1 +1,19 @@
-<p>editar-usuario works!</p>
+<h2>Editar Usuario</h2>
+<form (ngSubmit)="guardar()">
+  <label>Nombre:</label>
+  <input [(ngModel)]="data.nombre" name="nombre" required><br><br>
+
+  <label>Teléfono:</label>
+  <input [(ngModel)]="data.telefono" name="telefono"><br><br>
+
+  <label>Dirección:</label>
+  <input [(ngModel)]="data.direccion" name="direccion"><br><br>
+
+  <div class="form-group checkbox-group">
+    <label>Activo:</label>
+    <input type="checkbox" [(ngModel)]="data.activo" name="activo" />
+  </div><br><br>
+
+  <button type="submit" class="btn btn-primary">Guardar</button>
+  <button type="button" class="btn btn-secondary" (click)="cancelar()">Cancelar</button>
+</form>
