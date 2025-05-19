@@ -1,2 +1,25 @@
+<h2 class="titulo-formulario">Editar Producto</h2>
+
+<form #editarForm="ngForm">
+  <div class="form-group">
+    <label for="nombre">Nombre</label>
+    <input type="text" id="nombre" [(ngModel)]="data.nombre" name="nombre" class="form-control" required />
+  </div>
+
+  <div class="form-group">
+    <label for="precio">Precio</label>
+    <input type="number" id="precio" [(ngModel)]="data.precio" name="precio" class="form-control" required />
+  </div>
+
+  <div class="form-group">
+    <label for="imagen">Nombre de Imagen</label>
+    <input type="text" id="imagen" [(ngModel)]="data.imagen" name="imagen" class="form-control" required />
+  </div>
+
+  <div class="form-buttons">
+    <button type="button" class="btn btn-primary" (click)="guardar()">Guardar</button>
+    <button type="button" class="btn btn-secondary" (click)="cancelar()">Cancelar</button>
+  </div>
+</form>
 
 
