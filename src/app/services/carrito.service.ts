@@ -18,7 +18,10 @@ export class CarritoService {
     const index = this.listCarrito.findIndex(item => item.producto.id === producto.id);
 
     if (index === -1) {
-      const item = new Carrito(producto, cantidad);
+      const item: Carrito = {
+        producto: producto,
+        cantidad: cantidad
+      };
       this.listCarrito.push(item);
     } else {
       this.actualizar(index, this.listCarrito[index].cantidad + cantidad);
@@ -56,14 +59,10 @@ export class CarritoService {
     localStorage.setItem('carrito', JSON.stringify(this.listCarrito));
   }
 
-  obtenerSession() {
-    this.listCarrito = [];
-
+    obtenerSession() {
     if (typeof window !== 'undefined' && window.localStorage) {
       const carrito = localStorage.getItem('carrito');
-      if (carrito != null) {
-        this.listCarrito = JSON.parse(carrito);
-      }
+      this.listCarrito = carrito ? JSON.parse(carrito) : [];
     }
   }
 }
