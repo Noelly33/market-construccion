@@ -63,7 +63,7 @@ export class AuthService {
 
     getCurrentUser(): string {
     return this.currentUserSubject.value || 'No hay usuario'; 
-  }
+    }
   
     getCurrentRole(): string {
       return this.currentRoleSubject.value; 
@@ -75,7 +75,4 @@ export class AuthService {
 
     
 }
-    
-  
 
-  
