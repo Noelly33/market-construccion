@@ -1,3 +1,4 @@
+
 <h2 class="titulo-formulario">Registrar Producto</h2>
 
 <form (ngSubmit)="guardar()">
@@ -16,20 +17,20 @@
     <textarea id="descripcion" [(ngModel)]="producto.descripcion" name="descripcion" class="form-control" rows="3" required></textarea>
   </div>
 
-
   <div class="form-group">
-    <label>Imagen</label>
-    <input type="file" (change)="onFileSelected($event)" class="form-control" accept="image/*" />
-  </div>
+  <label>Imagen</label>
+  <input type="file" (change)="onFileSelected($event)" class="form-control" accept="image/*" />
+</div>
 
-  <div class="form-group" *ngIf="imagenURL">
-    <label>Vista previa:</label><br />
-    <img [src]="imagenURL" alt="Vista previa" width="100" height="100" />
-  </div>
+<div class="form-group" *ngIf="imagenURL">
+  <label>Vista previa:</label><br />
+  <img [src]="imagenURL" alt="Vista previa" width="100" height="100" />
+</div>
 
   <div class="form-buttons">
     <button type="submit" class="btn btn-primary">Registrar</button>
     <button type="button" class="btn btn-secondary" (click)="cancelar()">Cancelar</button>
   </div>
 </form>
+
 

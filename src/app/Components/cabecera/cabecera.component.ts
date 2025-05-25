@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
+import { ProductoService } from '../../services/producto.service';
 
 
 
@@ -16,9 +17,7 @@ import { MatIconModule } from '@angular/material/icon';
   styleUrl: './cabecera.component.css'
 })
 export class CabeceraComponent {
-  constructor (public authService: AuthService,
-    private router: Router // Inyectar el servicio de enrutamiento
-  ) { } // Inyectar el servicio de autenticación
+  constructor (public authService: AuthService,private router: Router) { } 
   
   public mostrarCarrito(): boolean {
     return this.authService.isLoggedIn() && !this.router.url.includes('paginaprincipal-admin');

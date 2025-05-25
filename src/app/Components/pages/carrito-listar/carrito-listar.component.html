@@ -1,5 +1,5 @@
 <div class="container mt-3">
-  <h5>Mi carrito</h5>
+<h5 class="titulo-carrito">MI CARRITO</h5>
   <hr />
   <div class="row">
     <div class="col-sm-9">
@@ -21,7 +21,7 @@
                 <tr *ngFor="let item of listCarrito; index as i">
                   <td>{{ item.producto.nombre }}</td>
                   <td>
-                    <img [src]="'img/' + item.producto.imagen" width="50" height="60" />
+                    <img [src]="item.producto.imagen" width="50" height="60" />
                   </td>
                   <td>{{ item.producto.precio }}</td>
                   <td>{{ item.cantidad }}</td>
@@ -45,7 +45,7 @@
     <div class="col-sm-3">
       <div class="card">
         <div class="card-body">
-          <h5>RESUMEN COMPRA</h5>
+          <h5 class="titulo-resumen">RESUMEN COMPRA</h5>
           <hr />
           <div class="d-flex justify-content-between my-4">
             <p class="mb-2">Total</p>

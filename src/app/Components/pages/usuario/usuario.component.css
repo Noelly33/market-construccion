@@ -1,12 +1,12 @@
 
-  /* Centrado del formulario en pantalla */
   .usuario-title {
     font-weight: bold;
     text-align: center;
-    margin-bottom: 24px; /* Espacio entre título y tabla */
+    margin-bottom: 24px; 
     font-size: 1.8rem;
-    color: #004057; /* marrón */
+    color: #004057; 
   }
+  
   
   form {
     max-width: 400px;
@@ -18,14 +18,12 @@
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   }
   
-  /* Títulos centrados y en negrita */
   h2 {
     text-align: center;
-    color: #2d383b; /* marrón */
+    color: #2d383b; 
     margin-bottom: 25px;
   }
-  
-  /* Estilos para los campos */
+
   .form-group {
     margin-bottom: 15px;
   }
@@ -103,7 +101,7 @@
   }
   
   .btn-editar {
-    background-color: #7c4a00; /* marrón */
+    background-color: #379cc0; /* marrón */
     color: white;
     margin-right: 5px;
   }

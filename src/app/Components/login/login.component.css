@@ -10,18 +10,38 @@ padding: 40px 0;
 .login-card {
   width: 300px;
   padding: 30px;
-    margin: 0 auto;
+  margin: 0 auto;
   border-radius: 20px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   background-color: #fff;
 }
+.login-icon-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 16px; 
+}
+
+.login-icon {
+  font-size: 50px !important;     
+  color: #004057;
+  height: 50px;                   
+  width: 50px;                   
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  line-height: 1;
+  user-select: none;            
+  overflow: visible;              
+}
+
 
 .login-title {
-  font-size: 24px;
+  font-size: 25px;
   font-weight: bold;
   margin-bottom: 20px;
   text-align: center;
-  color: #505050;
+  color: #004057;
   text-transform: uppercase;
 }
 
@@ -45,3 +65,5 @@ button[mat-raised-button]:hover {
   background-color: #004057;
   color: white;
 }
+
+

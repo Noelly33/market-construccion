@@ -16,13 +16,14 @@ import { CommonModule } from '@angular/common';
   styleUrl: './producto.component.css'
 })
 export class ProductoComponent implements OnInit {
-   productos: Producto[] = [];
+  productos: Producto[] = [];
   productoSeleccionado: Producto | null = null;
 
   constructor(private dialog: MatDialog, private productoService: ProductoService) {}
 
   ngOnInit(): void {
     this.productoService.getProductos().subscribe(data => this.productos = data);
+    console.log(this.productos);
   }
 
   abrirRegistro(): void {
@@ -56,5 +57,6 @@ export class ProductoComponent implements OnInit {
   if (!nombreImagen) return '';
   return localStorage.getItem('img_' + nombreImagen) || '';
 }
+
 
 }

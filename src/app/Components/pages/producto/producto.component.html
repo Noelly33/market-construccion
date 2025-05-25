@@ -1,3 +1,4 @@
+
 <div class="container">
   <h2 class="usuario-title">Gestión de Productos</h2>
 
@@ -18,12 +19,9 @@
       <tr *ngFor="let p of productos">
         <td>{{ p.nombre }}</td>
         <td>{{ p.precio }}</td>
-        <td>
-          <div class="form-group" *ngIf="">
-            <label>Vista previa:</label><br />
-            <img [src]="" alt="Vista previa" width="100" height="100" />
-          </div>
-        </td>
+         <td>
+            <img *ngIf="p.imagen" [src]="p.imagen" alt="Imagen del producto" width="100" height="100" />
+         </td>
         <td>
           <button class="btn btn-sm btn-primary me-1" (click)="editar(p)">Modificar</button>
           <button class="btn btn-sm btn-danger" (click)="eliminar(p.id)">Eliminar</button>
@@ -35,4 +33,3 @@
     </tbody>
   </table>
 </div>
-
