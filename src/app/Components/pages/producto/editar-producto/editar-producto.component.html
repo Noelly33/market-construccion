@@ -12,9 +12,19 @@
   </div>
 
   <div class="form-group">
-    <label for="imagen">Nombre de Imagen</label>
-    <input type="text" id="imagen" [(ngModel)]="data.imagen" name="imagen" class="form-control" required />
+    <label for="descripcion">Descripción</label>
+    <textarea id="descripcion" [(ngModel)]="data.descripcion" name="descripcion" class="form-control" rows="3" required></textarea>
   </div>
+
+  <div class="form-group">
+  <label>Imagen</label>
+  <input type="file" (change)="onFileSelected($event)" class="form-control" accept="image/*" />
+</div>
+
+<div class="form-group" *ngIf="imagenURL">
+  <label>Vista previa:</label><br />
+  <img [src]="imagenURL" alt="Vista previa" width="100" height="100" />
+</div>
 
   <div class="form-buttons">
     <button type="button" class="btn btn-primary" (click)="guardar()">Guardar</button>

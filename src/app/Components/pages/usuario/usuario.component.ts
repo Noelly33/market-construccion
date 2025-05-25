@@ -24,8 +24,6 @@ export class UsuarioComponent implements OnInit {
   }
 }
 
-  
-
    constructor(private dialog: MatDialog) {}
 
   ngOnInit() {

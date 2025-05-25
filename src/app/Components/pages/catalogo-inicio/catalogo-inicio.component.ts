@@ -26,20 +26,22 @@ import { FormsModule } from '@angular/forms';
       this.getProductos();
         
     }
-    getProductos() {
-      this.productoService.getProductos().subscribe({
-        next: (data) => {
-          this.productos = data;
-          console.error(this.productos);
-        }, error: (e) => {
-          console.error(e);
-        }
-      })
+    
+   getProductos() {
+  this.productoService.getProductos().subscribe({
+    next: (data) => {
+      this.productos = data.map(producto => ({ ...producto, cantidad: 1 }));
+    },
+    error: (e) => {
+      console.error(e);
     }
+  });
+}
 
-    getImagenURL(nombre: string): string {
-      const base64 = localStorage.getItem('img_' + nombre);
-      return base64 ? base64 : 'img/' + nombre; // fallback si no está en localStorage
+
+    getSrcImagen(base64?: string): string {
+      if (!base64) return 'assets/img/no-image.png'; // Imagen por defecto si no hay imagen
+      return base64.startsWith('data:image') ? base64 : 'data:image/png;base64,' + base64;
     }
 
     agregarProducto(item: Producto) {
