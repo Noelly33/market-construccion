@@ -1,0 +1,14 @@
+.titulo-carrito {
+  font-weight: bold;
+  text-align: left;
+  margin-bottom: 24px;
+  font-size: 1.8rem;
+  color: #004057;
+}
+.titulo-resumen {
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 24px;
+  font-size: 1.5rem;
+  color: #004057;
+}
