@@ -6,16 +6,19 @@ import { Producto } from '../../../core/modelo/producto';
 import { RegistrarProductoComponent } from './registrar-producto/registrar-producto.component';
 import { EditarProductoComponent } from './editar-producto/editar-producto.component';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 
 @Component({
   selector: 'app-producto',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './producto.component.html',
   styleUrl: './producto.component.css'
 })
 export class ProductoComponent implements OnInit {
+
+  filtro: string = '';
   productos: Producto[] = [];
   productoSeleccionado: Producto | null = null;
 
@@ -24,6 +27,12 @@ export class ProductoComponent implements OnInit {
   ngOnInit(): void {
     this.productoService.getProductos().subscribe(data => this.productos = data);
     console.log(this.productos);
+  }
+
+    get datosFiltrados() {
+    return this.productos.filter(t =>
+      t.nombre.toLowerCase().includes(this.filtro.toLowerCase())
+    );
   }
 
   abrirRegistro(): void {

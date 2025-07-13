@@ -11,7 +11,9 @@ import { EditarUsuarioComponent } from './editar-usuario/editar-usuario.componen
   templateUrl: './usuario.component.html',
   styleUrl: './usuario.component.css'
 })
+
 export class UsuarioComponent implements OnInit {
+  filtro: string = '';
    usuarios: any[] = [];
    usuarioSeleccionado: any = null;
   fechaRegistro: string = new Date().toISOString();
@@ -29,6 +31,11 @@ export class UsuarioComponent implements OnInit {
   ngOnInit() {
     const data = localStorage.getItem('clientes_registrados');
     this.usuarios = data ? JSON.parse(data) : [];
+  }
+
+  get datosFiltrados() {
+    return this.usuarios.filter(t =>
+      t.nombre.toLowerCase().includes(this.filtro.toLowerCase()));
   }
 
   editarUsuario(usuarioData: any) {

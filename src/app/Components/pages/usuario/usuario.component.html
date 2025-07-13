@@ -1,4 +1,9 @@
 <h1 class="usuario-title">Gestión de usuarios</h1>
+ <div style="display: flex; justify-content: center; align-items: center; margin-bottom: 20px;">
+    <input type="text" [(ngModel)]="filtro" placeholder="Buscar..." class="form-control" 
+           style="width: 300px; margin-right: 12px;" />
+  </div>
+
 <table class="table table-bordered">
   <thead>
     <tr>
@@ -13,7 +18,8 @@
     </tr>
   </thead>
   <tbody>
-   <tr *ngFor="let u of usuarios"
+ 
+      <tr *ngFor="let u of datosFiltrados"
         [class.seleccionado]="usuarioSeleccionado?.username === u.username"
         (click)="seleccionarUsuario(u)">
         <td>{{ u.nombre }}</td>
@@ -24,9 +30,8 @@
         <td>{{ u.fechaRegistro | date:'fullDate' }}</td>        
         <td *ngIf="usuarioSeleccionado?.id === u.id">
           <button class="btn btn-editar" (click)="editarUsuario(usuarioSeleccionado)">Editar</button>
-        </td>
-
-    </tr>
+        </td> 
+    </tr> 
   </tbody>
 </table>
 
