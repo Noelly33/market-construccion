@@ -14,7 +14,7 @@ import { FormsModule } from '@angular/forms';
 
 export class RegistrarProductoComponent {
 
-  producto: Producto = { id: 0, nombre: '', precio: 0, imagen: '', descripcion: '' };
+  producto: Producto = { id: 0, nombre: '', precio: 0, stock: 0, imagen: '', descripcion: '' };
   imagenURL: string | ArrayBuffer | null = null;
 
 

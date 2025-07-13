@@ -38,8 +38,7 @@ export class TransportistaComponent implements OnInit {
   get datosFiltrados() {
     return this.transportistas.filter(t =>
       t.nombre.toLowerCase().includes(this.filtro.toLowerCase()) ||
-      t.empresa.toLowerCase().includes(this.filtro.toLowerCase()) ||
-      t.correo.toLowerCase().includes(this.filtro.toLowerCase())
+      t.cedula.toLowerCase().includes(this.filtro.toLowerCase()) 
     );
   }
 
