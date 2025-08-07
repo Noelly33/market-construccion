@@ -1,7 +1,7 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { ProductoService} from '../../../services/producto.service';
 import { Producto } from '../../../core/modelo/producto';
-import { CarritoService } from '../../../services/carrito.service';
+import { CompraService } from '../../../services/compra.service';
 import { FormsModule } from '@angular/forms';
 
 @Component({
@@ -16,7 +16,6 @@ import { FormsModule } from '@angular/forms';
 
 
     private productoService = inject(ProductoService);  
-    private carritoService = inject(CarritoService);
     productos: Producto[] = [];
 
     productoSeleccionado?: Producto;
@@ -44,13 +43,24 @@ import { FormsModule } from '@angular/forms';
       return base64.startsWith('data:image') ? base64 : 'data:image/png;base64,' + base64;
     }
 
-    agregarProducto(item: Producto) {
-      const cantidad = item.cantidad && item.cantidad > 0 ? item.cantidad : 1;
-      this.carritoService.agregar(item, cantidad);
+      agregarProducto(item: Producto) {
+      const cantidad = item.stock && item.stock > 0 ? item.stock : 1;
+      const carrito = JSON.parse(localStorage.getItem('carrito') || '[]');
+
+      // Verifica si ya está el producto en el carrito
+      const index = carrito.findIndex((c: any) => c.producto.id_Producto === item.id_Producto);
+      if (index >= 0) {
+        carrito[index].cantidad += cantidad;
+      } else {
+        carrito.push({ producto: item, cantidad: cantidad });
+      }
+
+      localStorage.setItem('carrito', JSON.stringify(carrito));
+      alert('Producto agregado al carrito');
     }
 
-     mostrarDescripcion(producto: Producto) {
-      this.productoSeleccionado = producto;
-    }
-}
+        mostrarDescripcion(producto: Producto) {
+          this.productoSeleccionado = producto;
+        }
+   }
 

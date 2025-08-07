@@ -1,22 +1,21 @@
 <div class="row separacion-catalogo g-2">
-  @for (item of productos; track item.id) {
+  @for (item of productos; track item.id_Producto) {
     <div class="col-sm-3 mb-3">
       <div class="card" style="max-width: 340px; margin: auto;">
           <img 
           [src]="getSrcImagen(item.imagen)"
           class="card-img-top"
-          alt="{{ item.nombre }}"
+          alt="{{ item.nombreProducto }}"
           style="height: 170px; object-fit: cover; cursor: pointer;"
           (click)="mostrarDescripcion(item)"
           data-bs-toggle="modal"
           data-bs-target="#productoModal"
 />
         <div class="card-body p-3">
-          <p class="fw-bold mb-2 text-truncate" title="{{ item.nombre }}">{{ item.nombre }}</p>
+          <p class="fw-bold mb-2 text-truncate" title="{{ item.nombreProducto }}">{{ item.nombreProducto }}</p>
 
           <input
             type="number"
-            [(ngModel)]="item.cantidad"
             min="1"
             class="form-control form-control-sm mb-2"
             placeholder="Cantidad"
@@ -26,7 +25,7 @@
             <button class="btn btn-sm btn-agregar" (click)="agregarProducto(item)">
               <i class="fa fa-shopping-cart"></i> Agregar
             </button>
-            <small class="fw-bold">${{ item.precio }}</small>
+            <small class="fw-bold">${{ item.precioVenta }}</small>
           </div>
         </div>
       </div>
@@ -39,13 +38,13 @@
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="productoModalLabel">{{ productoSeleccionado?.nombre }}</h5>
+        <h5 class="modal-title" id="productoModalLabel">{{ productoSeleccionado?.nombreProducto }}</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
       </div>
       <div class="modal-body">
-        <img [src]=" productoSeleccionado?.imagen" class="img-fluid mb-3" />
+        <img [src]="getSrcImagen(productoSeleccionado?.imagen)" class="img-fluid mb-3" />
         <p>{{ productoSeleccionado?.descripcion }}</p>
-        <p><strong>Precio:</strong> ${{ productoSeleccionado?.precio }}</p>
+        <p><strong>Precio:</strong> ${{ productoSeleccionado?.precioVenta }}</p>
       </div>
     </div>
   </div>

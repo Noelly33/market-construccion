@@ -1,18 +1,19 @@
 
-<div *ngIf="mostrarFormularioDomicilio()" [formGroup]="direccionForm">
-  <mat-form-field appearance="fill" class="w-100 mb-3">
+<!--<form [formGroup]="direccionForm">
+  <mat-form-field>
     <mat-label>Dirección de entrega</mat-label>
-    <input matInput formControlName="direccion" placeholder="Ingresa tu dirección" />
+    <input matInput formControlName="direccion" />
   </mat-form-field>
 
-  <mat-form-field appearance="fill" class="w-100 mb-3">
+  <mat-form-field>
     <mat-label>Transportista</mat-label>
-    <select matInput formControlName="transportista">
+    <select matNativeControl formControlName="transportista">
       <option value="" disabled>Seleccione un transportista</option>
-      <option *ngFor="let t of transportistas" [value]="t">{{ t }}</option>
+      <option *ngFor="let t of transportistas" [ngValue]="t">{{ t }}</option>
     </select>
   </mat-form-field>
-</div>
+</form>
+
 <div *ngIf="!compraExitosa">
   <form [formGroup]="pagoForm" (ngSubmit)="enviarPago()" class="pago-form">
     <mat-form-field appearance="outline">
@@ -46,6 +47,6 @@
       <p>Gracias por su compra. Recibirá un comprobante al correo registrado.</p>
     </div>
   </div>
-</mat-card>
+</mat-card>-->
 
 

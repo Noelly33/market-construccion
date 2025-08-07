@@ -3,12 +3,12 @@
 <form (ngSubmit)="guardar()" #registroForm="ngForm" class="formulario-registro">
   <div class="form-group">
     <label for="nombre">Nombre</label>
-    <input type="text" id="nombre" [(ngModel)]="transportista.nombre" name="nombre" class="form-control" required />
+    <input type="text" id="nombre" [(ngModel)]="transportista.nombre_Completo" name="nombre_Completo" class="form-control" required />
   </div>
 
   <div class="form-group">
     <label for="correo">Correo</label>
-    <input type="email" id="correo" [(ngModel)]="transportista.correo" name="correo" class="form-control" required />
+    <input type="email" id="correo" [(ngModel)]="transportista.correo_Electronico" name="correo_Electronico" class="form-control" required />
   </div>
 
   <div class="form-group">
@@ -28,7 +28,7 @@
 
   <div class="form-group checkbox-group">
     <label for="activo">Activo</label>
-    <input type="checkbox" id="activo" [(ngModel)]="transportista.activo" name="activo" />
+    <input type="checkbox" id="activo" [(ngModel)]="transportista.estado" name="estado" />
   </div>
 
   <div class="form-buttons">
@@ -36,3 +36,4 @@
     <button type="button" class="btn btn-secondary" (click)="cancelar()">Cancelar</button>
   </div>
 </form>
+

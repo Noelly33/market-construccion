@@ -10,7 +10,7 @@ import { CatalogoInicioComponent } from '../pages/catalogo-inicio/catalogo-inici
 @Component({
   selector: 'app-paginaprincipal',
   standalone: true,
-  imports: [CommonModule, MatGridListModule, MatButtonModule, MatIconModule, CatalogoInicioComponent],
+  imports: [CommonModule, MatGridListModule, MatButtonModule, MatIconModule],
   templateUrl: './paginaprincipal.component.html',
   styleUrl: './paginaprincipal.component.css'
 })

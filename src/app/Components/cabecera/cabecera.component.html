@@ -9,7 +9,7 @@
       Bienvenido, {{ authService.getCurrentUser() }}
     </span>
 
-    @if (authService.getCurrentRole() === 'user') {
+   @if (authService.getRoleFromToken() === 'Cliente') {
       <button *ngIf="mostrarCarrito()" mat-raised-button class="btnCarrito" (click)="realizarCompra()">
       <mat-icon>shopping_cart</mat-icon> Carrito
     </button>

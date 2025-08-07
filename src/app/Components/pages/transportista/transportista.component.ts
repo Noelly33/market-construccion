@@ -29,51 +29,81 @@ export class TransportistaComponent implements OnInit {
     private transportistaService: TransportistaService
   ) {}
 
-  ngOnInit() {
-    this.transportistaService.getTransportistas().subscribe(data => {
+ ngOnInit() {
+  this.cargarTransportistas();
+}
+
+cargarTransportistas() {
+  this.transportistaService.obtenerTodos().subscribe({
+    next: (data) => {
       this.transportistas = data;
-    });
+    },
+    error: (err) => {
+      console.error('Error al cargar transportistas', err);
+    }
+  });
+}
+
+abrirRegistro() {
+ const dialogRef = this.dialog.open(RegistrarTransportistaComponent, {
+    width: '500px'
+  });
+
+  dialogRef.afterClosed().subscribe((resultado) => {
+    if (resultado) {
+      this.transportistaService.obtenerTodos().subscribe(data => {
+        this.transportistas = data;
+      });
+      this.transportistaSeleccionado = null;
+    }
+  });
+}
+
+editar(t: Transportista) {
+  const dialogRef = this.dialog.open(EditarTransportistaComponent, {
+    width: '400px',
+    data: { ...t }
+  });
+
+  dialogRef.afterClosed().subscribe(result => {
+    if (result) {
+      this.transportistaService.actualizarTransportista(result).subscribe({
+        next: () => {
+          // ✅ Volver a cargar transportistas luego de la actualización
+          this.transportistaService.obtenerTodos().subscribe(data => {
+            this.transportistas = data;
+            this.transportistaSeleccionado = null;
+          });
+        },
+        error: err => {
+          console.error('Error al actualizar transportista:', err);
+          alert('Ocurrió un error al actualizar el transportista.');
+        }
+      });
+    }
+  });
+}
+
+get datosFiltrados() {
+  return this.transportistas.filter(t =>
+    t.nombre_Completo?.toLowerCase().includes(this.filtro.toLowerCase()) ||
+    t.cedula?.toLowerCase().includes(this.filtro.toLowerCase())
+  );
+}
+
+seleccionarUsuario(t: Transportista) {
+    this.transportistaSeleccionado = this.transportistaSeleccionado?.id_Transportista === t.id_Transportista ? null : t;
   }
 
-  get datosFiltrados() {
-    return this.transportistas.filter(t =>
-      t.nombre.toLowerCase().includes(this.filtro.toLowerCase()) ||
-      t.cedula.toLowerCase().includes(this.filtro.toLowerCase()) 
-    );
-  }
 
-  seleccionarUsuario(t: Transportista) {
-    this.transportistaSeleccionado = this.transportistaSeleccionado?.id === t.id ? null : t;
-  }
+eliminar(id: number) {
+  this.transportistaService.eliminarTransportista(id).subscribe({
+    next: () => {
+      this.transportistaSeleccionado = null;
+      this.cargarTransportistas();
+    },
+    error: err => console.error('Error al eliminar', err)
+  });
+}
 
-  abrirRegistro() {
-    const dialogRef = this.dialog.open(RegistrarTransportistaComponent, {
-      width: '500px'
-    });
-
-    dialogRef.afterClosed().subscribe((nuevo: Transportista) => {
-      if (nuevo) {
-        this.transportistaService.agregarTransportista(nuevo);
-        this.transportistaSeleccionado = null;
-      }
-    });
-  }
-
-  editar(t: Transportista) {
-    const dialogRef = this.dialog.open(EditarTransportistaComponent, {
-      width: '400px',
-      data: { ...t }
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        this.transportistaService.actualizarTransportista(result);
-      }
-    });
-  }
-
-  eliminar(id: number) {
-    this.transportistaService.eliminarTransportista(id);
-    this.transportistaSeleccionado = null;
-  }
 }

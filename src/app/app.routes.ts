@@ -8,15 +8,13 @@ import { EditarProductoComponent } from './Components/pages/producto/editar-prod
 import { TransportistaComponent } from './Components/pages/transportista/transportista.component';
 import { RegistrarTransportistaComponent } from './Components/pages/transportista/registrar-transportista/registrar-transportista.component';
 import { EditarTransportistaComponent } from './Components/pages/transportista/editar-transportista/editar-transportista.component';
-import { CompraComponent } from './Components/pages/compra/compra.component';
 import { UsuarioComponent} from './Components/pages/usuario/usuario.component';
 import { RegistrarUsuarioComponent } from './Components/pages/usuario/registrar-usuario/registrar-usuario.component';
 import { EditarUsuarioComponent } from './Components/pages/usuario/editar-usuario/editar-usuario.component';
 import { PaginaprincipalAdminComponent } from './Components/paginaprincipal-admin/paginaprincipal-admin.component';
 import { CatalogoInicioComponent } from './Components/pages/catalogo-inicio/catalogo-inicio.component';
-import { Carrito } from './core/modelo/carrito';
 import { CarritoListarComponent } from './Components/pages/carrito-listar/carrito-listar.component';
-import { PagoFinalComponent } from './Components/pages/pago-final/pago-final.component';
+
 
 
 
@@ -24,12 +22,14 @@ export const routes: Routes = [
     { 
         path: 'paginaprincipal', 
         component: PaginaprincipalComponent, // Usa tu componente principal
-        canActivate: [authGuard] // Protege la ruta con el guard
+        canActivate: [authGuard]// Protege la ruta con el guard
+        //data: { role: 'Cliente' }
     },
     {
       path:'paginaprincipal-admin',
       component: PaginaprincipalAdminComponent,
-      canActivate: [authGuard] // Protege la ruta con el guard
+      canActivate: [authGuard], // Protege la ruta con el guard
+      //data: { role: 'Administrador' }
     },
       { 
         path: 'login', 
@@ -63,11 +63,7 @@ export const routes: Routes = [
         component: EditarTransportistaComponent,
         title: 'Editar Transportista'
       },
-      {
-        path:'compra',
-        component: CompraComponent,
-        title: 'Lista de Compras'
-      },
+     
       {
         path:'usuario',
         component: UsuarioComponent,
@@ -85,15 +81,15 @@ export const routes: Routes = [
       },
       {path: 'catalogo-inicio',
         component: CatalogoInicioComponent,
-        title: 'Catalogo de Productos'
+        title: 'Catalogo de Productos',
      },
       {path:'carrito-listar',
         component: CarritoListarComponent,
         title: 'Carrito de Compras'
-      },
+      }/*,
       {
        path: 'pago-final',
        component: PagoFinalComponent
-     }
+     }*/
 
 ];

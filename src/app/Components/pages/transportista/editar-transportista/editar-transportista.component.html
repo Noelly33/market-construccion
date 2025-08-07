@@ -1,9 +1,7 @@
-<h2 class="titulo-editar">Editar Transportista</h2>
-
 <form class="formulario-editar" #editarForm="ngForm">
   <div class="form-group">
     <label>Nombre:</label>
-    <input [(ngModel)]="data.nombre" name="nombre" class="form-control" required />
+    <input [(ngModel)]="data.nombre_Completo" name="nombre_Completo" class="form-control" required />
   </div>
 
   <div class="form-group">
@@ -13,7 +11,7 @@
 
   <div class="form-group">
     <label>Correo:</label>
-    <input [(ngModel)]="data.correo" name="correo" class="form-control" required />
+    <input [(ngModel)]="data.correo_Electronico" name="correo_Electronico" class="form-control" required />
   </div>
 
   <div class="form-group">
@@ -26,14 +24,9 @@
     <input [(ngModel)]="data.telefono" name="telefono" class="form-control" />
   </div>
 
-  <div class="form-group">
-    <label>Rol:</label>
-    <input [(ngModel)]="data.rol" name="rol" class="form-control" disabled />
-  </div>
-
   <div class="form-group checkbox-group">
     <label>Activo:</label>
-    <input type="checkbox" [(ngModel)]="data.activo" name="activo" />
+    <input type="checkbox" [(ngModel)]="data.estado" name="estado" />
   </div>
 
   <div class="form-buttons">

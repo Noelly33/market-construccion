@@ -3,11 +3,13 @@ import { CommonModule, DatePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatDialog,   MatDialogModule } from '@angular/material/dialog';
 import { EditarUsuarioComponent } from './editar-usuario/editar-usuario.component'; 
+import { ClienteService } from '../../../services/cliente.service';
+import { Cliente } from '../../../core/modelo/cliente';
 
 @Component({
   selector: 'app-perfil-usuario',
   standalone: true,
-  imports: [CommonModule, DatePipe, FormsModule, MatDialogModule, EditarUsuarioComponent],
+  imports: [CommonModule, FormsModule, MatDialogModule],
   templateUrl: './usuario.component.html',
   styleUrl: './usuario.component.css'
 })
@@ -15,47 +17,70 @@ import { EditarUsuarioComponent } from './editar-usuario/editar-usuario.componen
 export class UsuarioComponent implements OnInit {
   filtro: string = '';
    usuarios: any[] = [];
-   usuarioSeleccionado: any = null;
+   clienteSeleccionado: any = null;
   fechaRegistro: string = new Date().toISOString();
 
   seleccionarUsuario(usuario: any) {
-  if (this.usuarioSeleccionado?.username === usuario.username) {
-    this.usuarioSeleccionado = null; // si ya está seleccionado, se deselecciona
-  } else {
-    this.usuarioSeleccionado = usuario;
+    if (this.clienteSeleccionado?.username === usuario.username) {
+      this.clienteSeleccionado = null; // si ya está seleccionado, se deselecciona
+    } else {
+      this.clienteSeleccionado = usuario;
+    }
   }
-}
-
-   constructor(private dialog: MatDialog) {}
+    
+  clientes: Cliente[] = [];
+  constructor(private dialog: MatDialog, private clienteService: ClienteService) {}
 
   ngOnInit() {
-    const data = localStorage.getItem('clientes_registrados');
-    this.usuarios = data ? JSON.parse(data) : [];
+    this.cargarClientes();
+  }
+
+  cargarClientes() {
+    this.clienteService.obtenerTodosLosClientes().subscribe({
+      next: (data) => {
+        this.clientes = data;
+      },
+      error: (err) => {
+        console.error('Error al cargar transportistas', err);
+      }
+    });
   }
 
   get datosFiltrados() {
-    return this.usuarios.filter(t =>
-      t.nombre.toLowerCase().includes(this.filtro.toLowerCase()));
+    return this.clientes.filter(t =>
+    t.nombreCompleto.toLowerCase().includes(this.filtro.toLowerCase()))
   }
 
-  editarUsuario(usuarioData: any) {
-    const dialogRef = this.dialog.open(EditarUsuarioComponent, {
-      width: '400px',
-      data: { ...usuarioData }
-    });
-
-    dialogRef.afterClosed().subscribe((result: any) => {
-    if (result) {
-      const index = this.usuarios.findIndex(u => u.username === result.username);
-      if (index !== -1) {
-        this.usuarios[index] = result;
-
-        localStorage.setItem('clientes_registrados', JSON.stringify(this.usuarios));
-
-        // Actualiza la selección si es el mismo usuario
-        this.usuarioSeleccionado = result;
-      }
+  usuarioSeleccionado(c: Cliente) {
+      this.clienteSeleccionado = this.clienteSeleccionado?.id_Cliente === c.id_Cliente ? null : c;
     }
-  });
-  }
+  
+  
+    editar(c: Cliente) {
+      const dialogRef = this.dialog.open(EditarUsuarioComponent, {
+        width: '400px',
+        data: { ...c }
+      });
+    
+      dialogRef.afterClosed().subscribe(result => {
+        if (result) {
+          this.clienteService.actualizarCliente(result).subscribe({
+            next: () => {
+              // ✅ Volver a cargar transportistas luego de la actualización
+              this.clienteService.obtenerTodosLosClientes().subscribe(data => {
+                this.clientes = data;
+                this.clienteSeleccionado = null;
+              });
+            },
+            error: err => {
+              console.error('Error al actualizar transportista:', err);
+              alert('Ocurrió un error al actualizar el transportista.');
+            }
+          });
+        }
+      });
+    }
+    
 }
+  
+

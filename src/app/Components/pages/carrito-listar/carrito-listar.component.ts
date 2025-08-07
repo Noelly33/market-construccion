@@ -1,86 +1,154 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { CarritoService } from '../../../services/carrito.service';
-import { Carrito as CarritoModel} from '../../../core/modelo/carrito';
+import { Carrito, Carrito as CarritoModel} from '../../../core/modelo/carrito';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
-import { PagoFinalComponent } from '../pago-final/pago-final.component';  
 import { TransportistaService } from '../../../services/transportista.service';
-import { FormsModule } from '@angular/forms';
 import { Transportista } from '../../../core/modelo/transportista';
 import { Producto } from '../../../core/modelo/producto';
+import { CompraService } from '../../../services/compra.service';
+import { FormBuilder, FormsModule, Validators } from '@angular/forms';
+import { DetalleCompra } from '../../../core/modelo/detalleCompra';
+import { Compra } from '../../../core/modelo/compra';
+import { MatCard } from "@angular/material/card";
+import { MatIcon } from "@angular/material/icon";
+import { MatFormField, MatLabel } from '@angular/material/form-field';
+
+
 
 
   @Component({
     selector: 'app-carrito-listar',
     standalone: true,
-    imports: [CommonModule, MatDialogModule, FormsModule ],
+    imports: [CommonModule, MatDialogModule, FormsModule, MatCard, MatIcon],
     templateUrl: './carrito-listar.component.html',
     styleUrls: ['./carrito-listar.component.css']
   })
-    export class CarritoListarComponent implements OnInit {
+export class CarritoListarComponent implements OnInit {
 
+  listCarrito: Carrito[] = [];
+  metodoEntrega: string = 'bodega';
+  direccion: string = '';
+  transportistaSeleccionado: Transportista | null = null;
+  listaTransportistas: Transportista[] = [];
+  compraExitosa: boolean = false;
+ 
 
-      constructor(private dialog: MatDialog,
-      private carritoService: CarritoService,
-      private transportistaService: TransportistaService) {}
-  
-      listCarrito: Carrito[] = [];
-      metodoEntrega: string = 'bodega';
-      direccion: string = '';
-      transportistaSeleccionado: Transportista | null = null;
-      listaTransportistas: Transportista[] = [];
+  // Modelo de pago enlazado con ngModel
+  pago = {
+    nombre_Titular: '',
+    numero_Tarjeta: '',
+    fecha_Expiracion: '',
+    cvv: ''
+  };
 
-      ngOnInit(): void {
-        this.getListCarrito();
-        this.cargarTransportistas();
-      }
+  constructor(
+    private carritoService: CompraService,
+    private transportistaService: TransportistaService
+  ) {}
 
-      getListCarrito() {
-        this.listCarrito = this.carritoService.getCarrito();
-      }
-      
-      eliminarItem(index: number): void {
-        this.carritoService.eliminar(index); 
-        this.getListCarrito();     
-      }
-
-      calcularTotal(): number {
-        return this.listCarrito.reduce((total, item) => total + (item.producto.precio * item.cantidad), 0);
-      }
-      cargarTransportistas() {
-        this.transportistaService.getTransportistas().subscribe(data => {
-          this.listaTransportistas = data;
-        });
-      }
-
-      procesarPago(): void {
-        if (this.metodoEntrega === 'domicilio') {
-          if (!this.direccion || !this.transportistaSeleccionado) {
-            alert('Debe ingresar la dirección y seleccionar un transportista.');
-            return;
-          }
-          console.log('Entrega a domicilio');
-          console.log('Dirección:', this.direccion);
-          console.log('Transportista:', this.transportistaSeleccionado);
-        } else {
-          console.log('Retiro en bodega');
-        }
-
-      this.dialog.open(PagoFinalComponent, {
-        width: '500px',
-        data: {
-          metodoEntrega: this.metodoEntrega,
-          direccion: this.direccion,
-          transportista: this.transportistaSeleccionado
-        }
-      });
+  ngOnInit(): void {
+    this.getListCarrito();
+    this.cargarTransportistas();
   }
 
-  
+  getListCarrito(): void {
+    const carrito = localStorage.getItem('carrito');
+    this.listCarrito = carrito ? JSON.parse(carrito) : [];
+  }
 
+  eliminarItem(index: number): void {
+  const carrito = JSON.parse(localStorage.getItem('carrito') || '[]');
+  carrito.splice(index, 1); // elimina el elemento por índice
+  localStorage.setItem('carrito', JSON.stringify(carrito)); // actualiza el localStorage
+  this.getListCarrito(); // <-- CORRECTO: debe ejecutarse
 }
+
+
+  cargarTransportistas(): void {
+    this.transportistaService.obtenerTodos().subscribe(data => {
+      this.listaTransportistas = data;
+    });
+  }
+
+  calcularTotal(): number {
+    return this.listCarrito.reduce((total, item) => total + (item.producto.precioVenta * item.cantidad), 0);
+  }
+
+  getSrcImagen(base64?: string): string {
+    if (!base64) return 'assets/img/no-image.png';
+    return base64.startsWith('data:image') ? base64 : 'data:image/png;base64,' + base64;
+  }
+
+  enviarPago(): void {
+    // Validaciones mínimas
+    if (this.metodoEntrega === 'domicilio') {
+      if (!this.direccion.trim() || !this.transportistaSeleccionado) {
+        alert('Debe ingresar la dirección y seleccionar un transportista.');
+        return;
+      }
+    }
+
+    if (
+      !this.pago.nombre_Titular.trim() ||
+      !this.pago.numero_Tarjeta.trim() ||
+      !this.pago.fecha_Expiracion.trim() ||
+      !this.pago.cvv.trim()
+    ) {
+      alert('Por favor complete todos los campos de pago.');
+      return;
+    }
+
+    if (!/^\d{16}$/.test(this.pago.numero_Tarjeta)) {
+      alert('El número de tarjeta debe tener 16 dígitos.');
+      return;
+    }
+
+    if (!/^\d{3}$/.test(this.pago.cvv)) {
+      alert('El CVV debe tener 3 dígitos.');
+      return;
+    }
+
+    // Armar detalles
+    const detalles: DetalleCompra[] = this.listCarrito.map(item => ({
+      id_Producto: item.producto.id_Producto!,
+      precio_Compra: item.producto.precioVenta,
+      cantidad: item.cantidad,
+      subtotal: item.producto.precioVenta * item.cantidad
+    }));
+
+    const compra: Compra = {
+      total: this.calcularTotal(),
+      metodo_Entrega: this.metodoEntrega,
+      id_Transportista: this.metodoEntrega === 'domicilio' ? this.transportistaSeleccionado?.id_Transportista || 0 : 0,
+      detalles: detalles,
+      pago: this.pago,
+      transaccion: 'INSERTAR_COMPRA'
+    };
+
+    this.carritoService.insertarCompra(compra).subscribe({
+      next: (resp) => {
+        console.log('✅ Compra registrada con éxito', resp);
+        this.compraExitosa = true;
+        this.pago = {
+          nombre_Titular: '',
+          numero_Tarjeta: '',
+          fecha_Expiracion: '',
+          cvv: ''
+        };
+        this.direccion = '';
+        this.transportistaSeleccionado = null;
+        localStorage.removeItem('carrito');
+        this.listCarrito = [];
+      },
+      error: (err) => {
+        console.error('❌ Error al registrar compra:', err);
+      }
+    });
   
-export interface Carrito {
+  
+/*export interface Carrito {
   producto: Producto;
   cantidad: number;
+}*/
+}
 }

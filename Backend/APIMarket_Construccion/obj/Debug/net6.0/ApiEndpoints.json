@@ -1,0 +1,90 @@
+[
+  {
+    "ContainingType": "APIMarket_Construccion.Controllers.ClienteController",
+    "Method": "GetClientbyParam",
+    "RelativePath": "api/Cliente/GetClientbyParam",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "username",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "Nombre_Completo",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "transaccion",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.List\u00601[[BCMarket_Construccion.Cliente, BCMarket_Construccion, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "APIMarket_Construccion.Controllers.ClienteController",
+    "Method": "GetCliente",
+    "RelativePath": "api/Cliente/GetCliente",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "cliente",
+        "Type": "BCMarket_Construccion.Cliente",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "BCMarket_Construccion.Cliente",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "APIMarket_Construccion.Controllers.ClienteController",
+    "Method": "SetCliente",
+    "RelativePath": "api/Cliente/SetCliente",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "cliente",
+        "Type": "BCMarket_Construccion.Cliente",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "BCMarket_Construccion.Resultado",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  }
+]
