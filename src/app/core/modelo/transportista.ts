@@ -1,10 +1,11 @@
 export interface Transportista {
-  id: number;
-  nombre: string;
-  correo: string;
+  id_Transportista?: number;
+  nombre_Completo: string;
+  correo_Electronico: string;
   cedula: string;
   empresa: string;
   telefono: string;
-  activo: boolean;
-  rol: string;
+  estado: boolean;
+  transaccion?: string; 
+
 }

@@ -1,4 +1,4 @@
-<div class="container mt-3">
+<!--<div class="container mt-3">
 <h5 class="titulo-carrito">MI CARRITO</h5>
   <hr />
   <div class="row">
@@ -19,13 +19,110 @@
               </thead>
               <tbody>
                 <tr *ngFor="let item of listCarrito; index as i">
-                  <td>{{ item.producto.nombre }}</td>
+                  <td>{{ item.producto.nombreProducto }}</td>
                   <td>
-                    <img [src]="item.producto.imagen" width="50" height="60" />
+                     <img [src]="getSrcImagen(item.producto.imagen)" width="50" height="60" />
                   </td>
-                  <td>{{ item.producto.precio }}</td>
+                  <td>{{ item.producto.precioVenta }}</td>
                   <td>{{ item.cantidad }}</td>
-                  <td>{{ item.producto.precio * item.cantidad }}</td>
+                  <td>{{ item.producto.precioVenta * item.cantidad }}</td>
+                  <td>
+                    <button (click)="eliminarItem(i)" type="button" class="btn btn-danger btn-sm">
+                      <i class="fa fa-trash"></i>
+                    </button>
+                  </td>
+                </tr>
+                <tr *ngIf="listCarrito.length === 0">
+                  <td colspan="6" class="text-center">No hay productos</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+<div class="col-sm-3"> 
+  <div class="card">
+    <div class="card-body">
+      <h5 class="titulo-resumen">RESUMEN COMPRA</h5>
+      <hr />
+      <div class="d-flex justify-content-between my-4">
+        <p class="mb-2">Total</p>
+        <p class="mb-2">$ {{ calcularTotal() }}</p>
+      </div>
+      <hr />
+
+      <div class="form-group mt-3">
+        <label for="metodoEntrega"><strong>Método de entrega:</strong></label>
+        <select [(ngModel)]="metodoEntrega" class="form-control" id="metodoEntrega">
+          <option value="bodega">Retiro en bodega</option>
+          <option value="domicilio">Entrega a domicilio</option>
+        </select>
+      </div>
+
+
+      <div class="form-group mt-3">
+        <label for="direccion">Dirección de entrega:</label>
+        <input 
+          [(ngModel)]="direccion" 
+          id="direccion" 
+          class="form-control" 
+          [disabled]="metodoEntrega !== 'domicilio'"
+          placeholder="Ingrese la dirección..." />
+      </div>
+      <div class="form-group mt-2">
+        <label for="transportista">Transportista:</label>
+        <select 
+          [(ngModel)]="transportistaSeleccionado" 
+          class="form-control" 
+          id="transportista"
+          [disabled]="metodoEntrega !== 'domicilio'">
+          <option [ngValue]="null">-- Seleccione un transportista --</option>
+          <option *ngFor="let t of listaTransportistas" [ngValue]="t">
+            {{ t.nombre_Completo }} - {{ t.empresa }}
+          </option>
+        </select>
+      </div>
+
+      <button type="button" class="btn btn-dark btn-block mt-4" (click)="procesarPago()">
+        <div class="d-flex justify-content-between">
+          <span>Procesar</span>
+        </div>
+      </button>
+    </div>
+  </div>
+</div>
+  </div>
+</div>-->
+<div class="container mt-3">
+  <h5 class="titulo-carrito">MI CARRITO</h5>
+  <hr />
+  <div class="row">
+    <!-- Tabla de productos -->
+    <div class="col-sm-9">
+      <div class="card">
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table table-bordered table-striped text-center">
+              <thead>
+                <tr>
+                  <th>Producto</th>
+                  <th>Imagen</th>
+                  <th>Precio ($)</th>
+                  <th>Cantidad</th>
+                  <th>Importe</th>
+                  <th>Acción</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of listCarrito; index as i">
+                  <td>{{ item.producto.nombreProducto }}</td>
+                  <td>
+                    <img [src]="getSrcImagen(item.producto.imagen)" width="50" height="60" />
+                  </td>
+                  <td>{{ item.producto.precioVenta }}</td>
+                  <td>{{ item.cantidad }}</td>
+                  <td>{{ item.producto.precioVenta * item.cantidad }}</td>
                   <td>
                     <button (click)="eliminarItem(i)" type="button" class="btn btn-danger btn-sm">
                       <i class="fa fa-trash"></i>
@@ -42,6 +139,7 @@
       </div>
     </div>
 
+    <!-- Resumen y pago -->
     <div class="col-sm-3">
       <div class="card">
         <div class="card-body">
@@ -52,32 +150,66 @@
             <p class="mb-2">$ {{ calcularTotal() }}</p>
           </div>
           <hr />
+
+          <!-- Método de entrega -->
           <div class="form-group mt-3">
             <label for="metodoEntrega"><strong>Método de entrega:</strong></label>
-            <select [(ngModel)]="metodoEntrega" class="form-control" id="metodoEntrega">
+            <select [(ngModel)]="metodoEntrega" class="form-control" id="metodoEntrega" name="metodoEntrega">
               <option value="bodega">Retiro en bodega</option>
               <option value="domicilio">Entrega a domicilio</option>
             </select>
           </div>
 
-          <div *ngIf="metodoEntrega === 'domicilio'" class="mt-3">
-            <div class="form-group">
-              <label for="direccion">Dirección de entrega:</label>
-              <input [(ngModel)]="direccion" id="direccion" class="form-control" placeholder="Ingrese la dirección..." />
-            </div>
-
-            <div class="form-group mt-2">
-              <label for="transportista">Transportista:</label>
-              <select [(ngModel)]="transportistaSeleccionado" class="form-control" id="transportista">
-                <option [ngValue]="null">-- Seleccione un transportista --</option>
-                <option *ngFor="let t of listaTransportistas" [ngValue]="t">
-                  {{ t.nombre }} - {{ t.empresa }}
-                </option>
-              </select>
-            </div>
+          <!-- Dirección -->
+          <div class="form-group mt-3">
+            <label for="direccion">Dirección de entrega:</label>
+            <input 
+              [(ngModel)]="direccion" 
+              id="direccion" 
+              class="form-control" 
+              [disabled]="metodoEntrega !== 'domicilio'"
+              placeholder="Ingrese la dirección..." />
           </div>
 
-          <button type="button" class="btn btn-dark btn-block mt-4" (click)="procesarPago()">
+          <!-- Transportista -->
+          <div class="form-group mt-2">
+            <label for="transportista">Transportista:</label>
+            <select 
+              [(ngModel)]="transportistaSeleccionado" 
+              class="form-control" 
+              id="transportista"
+              [disabled]="metodoEntrega !== 'domicilio'">
+              <option [ngValue]="null">-- Seleccione un transportista --</option>
+              <option *ngFor="let t of listaTransportistas" [ngValue]="t">
+                {{ t.nombre_Completo }} - {{ t.empresa }}
+              </option>
+            </select>
+          </div>
+
+          <hr />
+
+          <!-- Información de pago -->
+          <div class="form-group mt-3">
+            <label>Nombre del titular</label>
+            <input type="text" class="form-control" [(ngModel)]="pago.nombre_Titular" name="nombre_Titular" required />
+          </div>
+
+          <div class="form-group mt-3">
+            <label>Número de tarjeta</label>
+            <input type="text" class="form-control" [(ngModel)]="pago.numero_Tarjeta" name="numero_Tarjeta" maxlength="16" required />
+          </div>
+
+          <div class="form-group mt-3">
+            <label>Fecha de expiración (MM/AA)</label>
+            <input type="text" class="form-control" [(ngModel)]="pago.fecha_Expiracion" name="fecha_Expiracion" required />
+          </div>
+
+          <div class="form-group mt-3">
+            <label>CVV</label>
+            <input type="text" class="form-control" [(ngModel)]="pago.cvv" name="cvv" maxlength="3" required />
+          </div>
+
+          <button type="button" class="btn btn-dark btn-block mt-4" (click)="enviarPago()">
             <div class="d-flex justify-content-between">
               <span>Procesar</span>
             </div>
@@ -86,4 +218,17 @@
       </div>
     </div>
   </div>
+
+  <!-- Mensaje de éxito -->
+  <mat-card *ngIf="compraExitosa" class="mensaje-exito mt-4">
+    <div class="mensaje-contenido">
+      <mat-icon class="icono-exito" color="primary">check_circle</mat-icon>
+      <div>
+        <h2>¡Compra Exitosa!</h2>
+        <p>Gracias por su compra. Recibirá un comprobante al correo registrado.</p>
+      </div>
+    </div>
+  </mat-card>
 </div>
+
+

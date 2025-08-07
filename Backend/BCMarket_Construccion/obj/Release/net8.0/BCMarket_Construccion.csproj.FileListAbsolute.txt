@@ -1,0 +1,11 @@
+C:\Users\Usuario\source\repos\Market_Construccion_New\BCMarket_Construccion\bin\Release\net8.0\BCMarket_Construccion.deps.json
+C:\Users\Usuario\source\repos\Market_Construccion_New\BCMarket_Construccion\bin\Release\net8.0\BCMarket_Construccion.dll
+C:\Users\Usuario\source\repos\Market_Construccion_New\BCMarket_Construccion\bin\Release\net8.0\BCMarket_Construccion.pdb
+C:\Users\Usuario\source\repos\Market_Construccion_New\BCMarket_Construccion\obj\Release\net8.0\BCMarket_Construccion.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Usuario\source\repos\Market_Construccion_New\BCMarket_Construccion\obj\Release\net8.0\BCMarket_Construccion.AssemblyInfoInputs.cache
+C:\Users\Usuario\source\repos\Market_Construccion_New\BCMarket_Construccion\obj\Release\net8.0\BCMarket_Construccion.AssemblyInfo.cs
+C:\Users\Usuario\source\repos\Market_Construccion_New\BCMarket_Construccion\obj\Release\net8.0\BCMarket_Construccion.csproj.CoreCompileInputs.cache
+C:\Users\Usuario\source\repos\Market_Construccion_New\BCMarket_Construccion\obj\Release\net8.0\BCMarket_Construccion.dll
+C:\Users\Usuario\source\repos\Market_Construccion_New\BCMarket_Construccion\obj\Release\net8.0\refint\BCMarket_Construccion.dll
+C:\Users\Usuario\source\repos\Market_Construccion_New\BCMarket_Construccion\obj\Release\net8.0\BCMarket_Construccion.pdb
+C:\Users\Usuario\source\repos\Market_Construccion_New\BCMarket_Construccion\obj\Release\net8.0\ref\BCMarket_Construccion.dll

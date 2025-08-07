@@ -12,6 +12,7 @@ import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-login',
+  
   standalone: true,
   imports: [MatButtonModule, MatInputModule, MatFormFieldModule, MatCardModule, FormsModule, MatIconModule],
   templateUrl: './login.component.html',
@@ -23,28 +24,28 @@ export class LoginComponent {
 
   constructor(
     private authService: AuthService,
-    private clienteService: ClienteService,
     private snackBar: MatSnackBar,
     private router: Router
   ) {}
 
-  public IniciarSesion(): void {
-  console.log('Validando:', this.username, this.password);
+ 
+IniciarSesion(): void {
+  this.authService.login(this.username, this.password).subscribe({
+   next: (response) => {
+  this.authService.guardarToken(response.token, this.username);
 
-  const resultado = this.authService.login(this.username, this.password);
+  const rol = this.authService.getRoleFromToken();
 
-  if (resultado.success) {
-    this.snackBar.open(resultado.message, 'Cerrar', { duration: 2000 });
-
-    if (resultado.role === 'admin') {
-      this.router.navigate(['/paginaprincipal-admin']);
-    } else {
-      this.router.navigate(['/catalogo-inicio']);
-    }
+  if (rol === 'Administrador') {
+    this.router.navigate(['/paginaprincipal-admin']);
   } else {
-    // Muestra mensaje de cuenta inactiva o error
-    this.snackBar.open(resultado.message, 'Cerrar', { duration: 3000 });
+    this.router.navigate(['/catalogo-inicio']);
   }
-}
 
+  this.snackBar.open('Inicio de sesión exitoso', 'Cerrar', { duration: 2000 });
+}
+  });
+
+  console.log('Intentando iniciar sesión con:', this.username, this.password);
+}
 }

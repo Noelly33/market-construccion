@@ -31,41 +31,66 @@ export class ProductoComponent implements OnInit {
 
     get datosFiltrados() {
     return this.productos.filter(t =>
-      t.nombre.toLowerCase().includes(this.filtro.toLowerCase())
+      t.nombreProducto.toLowerCase().includes(this.filtro.toLowerCase())
     );
   }
 
   abrirRegistro(): void {
-    const dialogRef = this.dialog.open(RegistrarProductoComponent, { width: '400px' });
-    dialogRef.afterClosed().subscribe((nuevo: Producto) => {
-      if (nuevo) {
-        this.productoService.agregarProducto(nuevo);
-        this.ngOnInit(); // recarga lista
-      }
-    });
+  const dialogRef = this.dialog.open(RegistrarProductoComponent, { width: '400px' });
+
+  dialogRef.afterClosed().subscribe((nuevo: Producto) => {
+    if (nuevo) {
+      this.productoService.insertarProducto(nuevo).subscribe({
+        next: () => {
+          this.ngOnInit(); // Recarga tabla
+          console.log('Producto registrado:', nuevo);
+        },
+        error: err => {
+          console.error('Error al registrar producto:', err);
+          alert('Error al registrar producto.');
+        }
+      });
+    }
+  });
+}
+editar(producto: Producto): void {
+  const productoClonado: Producto = { ...producto };
+
+  if (producto.imagen && !producto.imagenBase64) {
+    productoClonado.imagenBase64 = producto.imagen;
+    productoClonado.imagen = producto.imagen; // es base64
   }
 
-  editar(producto: Producto): void {
-    const dialogRef = this.dialog.open(EditarProductoComponent, {
-      width: '400px',
-      data: { ...producto }
-    });
-    dialogRef.afterClosed().subscribe((actualizado: Producto) => {
-      if (actualizado) {
-        this.productoService.actualizarProducto(actualizado);
-        this.ngOnInit();
-      }
-    });
-  }
+  const dialogRef = this.dialog.open(EditarProductoComponent, {
+    width: '400px',
+    data: productoClonado
+  });
 
-  eliminar(id: number): void {
-    this.productoService.eliminarProducto(id);
-    this.ngOnInit();
-  }
-  getImagenURL(nombreImagen?: string): string {
-  if (!nombreImagen) return '';
-  return localStorage.getItem('img_' + nombreImagen) || '';
+  dialogRef.afterClosed().subscribe((actualizado: Producto) => {
+    if (actualizado) {
+      this.productoService.actualizarProducto(actualizado).subscribe({
+        next: () => this.ngOnInit(),
+        error: err => {
+          console.error('Error al actualizar producto:', err);
+          alert('Error al actualizar producto.');
+        }
+      });
+    }
+  });
 }
 
+  eliminar(producto: Producto): void {
+  this.productoService.eliminarProducto(producto.id_Producto ?? 0).subscribe({
+    next: () => this.ngOnInit(),
+    error: err => {
+      console.error('Error al eliminar producto:', err);
+      alert('Error al eliminar producto.');
+    }
+  });
+}
+getImagenSrc(base64: string | null): string {
+    if (!base64) return '';
+    return `data:image/jpeg;base64,${base64}`;
+  }
 
 }

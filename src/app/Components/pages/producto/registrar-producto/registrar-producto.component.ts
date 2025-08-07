@@ -14,7 +14,7 @@ import { FormsModule } from '@angular/forms';
 
 export class RegistrarProductoComponent {
 
-  producto: Producto = { id: 0, nombre: '', precio: 0, stock: 0, imagen: '', descripcion: '' };
+  producto: Producto = { id_Producto: 0, nombreProducto: '', precioVenta: 0, stock: 0, imagen: '', imagenBase64: '', descripcion: '', estado: true };
   imagenURL: string | ArrayBuffer | null = null;
 
 
@@ -25,13 +25,17 @@ onFileSelected(event: Event) {
     const reader = new FileReader();
     reader.onload = () => {
       this.imagenURL = reader.result;
-      this.producto.imagen = reader.result as string; // guardar imagen como base64
+
+      const base64 = (reader.result as string).split(',')[1]; 
+      this.producto.imagenBase64 = base64; 
+      this.producto.imagen = base64;
     };
-    reader.readAsDataURL(file); // convierte a base64
+    reader.readAsDataURL(file); 
   }
 }
 
   guardar() {
+    console.log("Imagen base64 enviada:", this.producto.imagenBase64); // DEBUG
     this.dialogRef.close(this.producto);
   }
 

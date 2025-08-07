@@ -6,6 +6,7 @@ import { CommonModule } from '@angular/common';
 import { ClienteService } from '../../../../services/cliente.service';
 import { Inject } from '@angular/core';
 import { Action } from 'rxjs/internal/scheduler/Action';
+import { ClienteCuentaDto } from '../../../../core/modelo/cliente-cuenta-dto';
 
 
 @Component({
@@ -17,59 +18,48 @@ import { Action } from 'rxjs/internal/scheduler/Action';
 })
 export class RegistrarUsuarioComponent {
   registroForm: FormGroup;
-  registroExitoso: boolean = true;
+  registroExitoso: boolean = false;
   errorRegistro: string | null = null;
 
-
-
-
   constructor(
-    @Inject(ClienteService) private clienteservice: ClienteService,
-    
+    private fb: FormBuilder,
     private clienteService: ClienteService,
-    private router: Router,
-    private fb: FormBuilder
+    private router: Router
   ) {
-    
     this.registroForm = this.fb.group({
       nombre: ['', Validators.required],
-      username: ['', [Validators.required]],
+      username: ['', Validators.required],
       password: ['', [Validators.required, Validators.minLength(6)]],
       direccion: [''],
-      telefono: [''],
+      telefono: ['']
     });
   }
 
-  onSubmit() {
+  onSubmit(): void {
     if (this.registroForm.valid) {
-      const clientes = JSON.parse(localStorage.getItem('clientes_registrados') || '[]');
-      const username = this.registroForm.value.username;
-
-      const existe = clientes.find((c: any) => c.username === username);
-
-      if (existe) {
-        this.errorRegistro = 'El nombre de usuario ya está registrado.';
-        this.registroExitoso = false;
-        return;
-      }
-
-      const nuevoUsuario = {
-        ...this.registroForm.value,
-        id: Date.now(),
-        fechaRegistro: new Date().toISOString(),
-        role: 'user',
-        activo: true // estado activo al registrar
+      const dto: ClienteCuentaDto = {
+        nombreCompleto: this.registroForm.value.nombre,
+        direccion: this.registroForm.value.direccion,
+        telefono: this.registroForm.value.telefono,
+        estado: true, // Siempre activo al registrarse
+        username: this.registroForm.value.username,
+        clave: this.registroForm.value.password
       };
 
-      clientes.push(nuevoUsuario);
-      localStorage.setItem('clientes_registrados', JSON.stringify(clientes));
-
-      this.registroExitoso = true;
-      this.errorRegistro = null;
-
-      setTimeout(() => {
-        this.router.navigate(['/login']);
-      }, 2000);
+      this.clienteService.insertarCliente(dto).subscribe({
+        next: (res) => {
+          this.registroExitoso = true;
+          this.errorRegistro = null;
+          setTimeout(() => {
+            this.router.navigate(['/login']);
+          }, 2000);
+        },
+        error: (err) => {
+          this.errorRegistro = 'Error al registrar cliente.';
+          this.registroExitoso = false;
+        }
+      });
+      console.log('Formulario enviado:', this.registroForm.value);
     }
   }
 }

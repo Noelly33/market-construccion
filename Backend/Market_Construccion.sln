@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.12.35707.178
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "APIMarket_Construccion", "APIMarket_Construccion\APIMarket_Construccion.csproj", "{650982B2-DC96-4FCC-9231-9BF033CA484A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BCMarket_Construccion", "BCMarket_Construccion\BCMarket_Construccion.csproj", "{4555739A-3F39-4B6C-8D2A-E33BB3FE460A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{650982B2-DC96-4FCC-9231-9BF033CA484A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{650982B2-DC96-4FCC-9231-9BF033CA484A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{650982B2-DC96-4FCC-9231-9BF033CA484A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{650982B2-DC96-4FCC-9231-9BF033CA484A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4555739A-3F39-4B6C-8D2A-E33BB3FE460A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4555739A-3F39-4B6C-8D2A-E33BB3FE460A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4555739A-3F39-4B6C-8D2A-E33BB3FE460A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4555739A-3F39-4B6C-8D2A-E33BB3FE460A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C32FB9D3-CCCB-44EE-AFB6-9B2B3F318482}
+	EndGlobalSection
+EndGlobal

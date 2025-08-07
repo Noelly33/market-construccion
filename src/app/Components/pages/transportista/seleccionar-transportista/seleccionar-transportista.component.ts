@@ -24,7 +24,7 @@ export class SelectTransportistaComponent implements OnInit {
   ) {}
 
     ngOnInit() {
-      this.transportistaService.getTransportistas().subscribe((data) => {
+      this.transportistaService.obtenerTodos().subscribe((data) => {
         this.transportistas = data;
       });
     }

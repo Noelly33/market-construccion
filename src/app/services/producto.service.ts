@@ -2,43 +2,40 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Producto } from '../core/modelo/producto';
 import { Observable, of } from 'rxjs';
+import { MatDialogRef } from '@angular/material/dialog';
+import { RegistrarProductoComponent } from '../Components/pages/producto/registrar-producto/registrar-producto.component';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProductoService {
  
-  private productos: Producto[] = JSON.parse(localStorage.getItem('productos') || '[]');
+  private apiUrl = 'https://localhost:5001/api/Producto'; 
+
+  constructor(private http: HttpClient) {}
 
   getProductos(): Observable<Producto[]> {
-    return of(this.productos);
+    return this.http.get<Producto[]>(`${this.apiUrl}/ObtenerTodosLosProductos`);
   }
 
-  agregarProducto(p: Producto) {
-    p.id = this.generarId();
-    this.productos.push(p);
-    this.guardar();
+  // Insertar nuevo producto
+  insertarProducto(producto: Producto): Observable<any> {
+    // Asegúrate de copiar el base64 al campo correcto
+    producto.imagenBase64 = producto.imagen;
+
+    return this.http.post<any>(`${this.apiUrl}/InsertarProducto`, producto);
   }
 
-  actualizarProducto(p: Producto) {
-    const index = this.productos.findIndex(x => x.id === p.id);
-    if (index > -1) {
-      this.productos[index] = p;
-      this.guardar();
-    }
+  actualizarProducto(producto: Producto): Observable<any> {
+  if (!producto.imagenBase64 && producto.imagen) {
+    producto.imagenBase64 = producto.imagen;
   }
 
-  eliminarProducto(id: number) {
-    this.productos = this.productos.filter(p => p.id !== id);
-    this.guardar();
-  }
+  return this.http.put<any>(`${this.apiUrl}/ActualizarProducto`, producto);
+}
 
-  private guardar() {
-    localStorage.setItem('productos', JSON.stringify(this.productos));
+  // Eliminar producto
+  eliminarProducto(idProducto: number): Observable<any> {
+    return this.http.delete<any>(`${this.apiUrl}/EliminarProducto?idProducto=${idProducto}`);
   }
-
-  private generarId(): number {
-    return this.productos.length ? Math.max(...this.productos.map(p => p.id)) + 1 : 1;
-  }
-
 }

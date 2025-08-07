@@ -1,41 +1,44 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { Transportista } from '../core/modelo/transportista';
+import { HttpClient, HttpParams } from '@angular/common/http';
 
 
 @Injectable({
   providedIn: 'root'
 })
 export class TransportistaService {
-  private transportistas: Transportista[] = [
-    { id: 1, nombre: 'Carlos Pérez', correo: 'cperez@mail.com', cedula: '0923456789', empresa: 'TransLogistic', telefono: '0991234567', activo: true, rol: 'Transportista' }
-  ];
+   private apiUrl = 'https://localhost:5001/api/Transportista'; // cambia según tu host
 
-  private transportistasSubject = new BehaviorSubject<Transportista[]>(this.transportistas);
+  constructor(private http: HttpClient) {}
 
-  constructor() {}
+  insertarTransportista(transportista: Transportista): Observable<any> {
+  return this.http.post(`${this.apiUrl}/InsertarTransportista`, transportista);
+}
 
-  getTransportistas(): Observable<Transportista[]> {
-    return this.transportistasSubject.asObservable();
-  }
+actualizarTransportista(transportista: Transportista): Observable<any> {
+  return this.http.put(`${this.apiUrl}/ActualizarTransportista`, transportista);
+}
 
-  agregarTransportista(nuevo: Transportista) {
-    const nuevoId = this.transportistas.length ? Math.max(...this.transportistas.map(t => t.id)) + 1 : 1;
-    nuevo.id = nuevoId;
-    this.transportistas.push(nuevo);
-    this.transportistasSubject.next(this.transportistas);
-  }
+obtenerTodos(): Observable<Transportista[]> {
+  return this.http.get<Transportista[]>(`${this.apiUrl}/ObtenerTodosLosTransportistas`);
+}
 
-  actualizarTransportista(actualizado: Transportista) {
-    const index = this.transportistas.findIndex(t => t.id === actualizado.id);
-    if (index !== -1) {
-      this.transportistas[index] = actualizado;
-      this.transportistasSubject.next(this.transportistas);
-    }
-  }
+obtenerPorCedula(cedula: string): Observable<Transportista[]> {
+  let params = new HttpParams()
+    .set('cedula', cedula)
+    .set('transaccion', 'CONSULTAR_TRANSPORTISTA_POR_CEDULA');
 
-  eliminarTransportista(id: number) {
-    this.transportistas = this.transportistas.filter(t => t.id !== id);
-    this.transportistasSubject.next(this.transportistas);
-  }
+  return this.http.get<Transportista[]>(`${this.apiUrl}/ObtenerTransportistaPorCedula`, { params });
+}
+
+eliminarTransportista(id: number): Observable<any> {
+  let params = new HttpParams().set('idTransportista', id);
+  return this.http.delete(`${this.apiUrl}/EliminarTransportista`, { params });
+}
+
+buscarTransportista(filtro: Transportista): Observable<Transportista[]> {
+  return this.http.post<Transportista[]>(`${this.apiUrl}/GetTransportista`, filtro);
+}
+
 }

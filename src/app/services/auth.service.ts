@@ -1,78 +1,103 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { JwtPayload } from '../core/modelo/jwt-payload';
+import {jwtDecode} from 'jwt-decode';
 
 @Injectable({
   providedIn: 'root'
 })
 
 export class AuthService {
+  private apiUrl = 'https://localhost:5001/api/Cuenta/Login';
 
-  private validUsers = [
+  private isAuthenticatedSubject = new BehaviorSubject<boolean>(this.hasToken());
+  private currentUserSubject = new BehaviorSubject<string>(this.getUsernameFromToken() || '');
+  private tokenSubject = new BehaviorSubject<string>(this.getToken() || '');
 
-      { username: 'admin', password: 'admin123', name: 'Administrador', role: 'admin' },
-      { username: 'user', password: 'user123', name: 'Usuario', role: 'user' }  
-      
-  ];
+  isAuthenticated$ = this.isAuthenticatedSubject.asObservable();
+  currentUser$ = this.currentUserSubject.asObservable();
+  token$ = this.tokenSubject.asObservable();
 
-    private isAuthenticatedSubject = new BehaviorSubject<boolean>(false);
-    private currentUserSubject = new BehaviorSubject<string>('');
-    private currentRoleSubject = new BehaviorSubject<string>('');
+  constructor(private http: HttpClient) {}
 
-    isAuthenticated$ = this.isAuthenticatedSubject.asObservable();
-    currentUser$ = this.currentUserSubject.asObservable();
-    currentRole$ = this.currentRoleSubject.asObservable();
+  // Llamada al backend para login
+  login(username: string, clave: string): Observable<any> {
+    const body = { username, clave };
+    return this.http.post<any>(this.apiUrl, body); // { token: '...' }
+  }
 
-    login(username: string, password: string):{ success: boolean, message: string, role?: string } {
-      const user = this.validUsers.find(u => 
-        u.username === username && u.password === password
-      );
-      
-      if (user) {
-        this.isAuthenticatedSubject.next(true);
-        this.currentUserSubject.next(user.name);
-        this.currentRoleSubject.next(user.role);
-        localStorage.setItem('usuario_actual', JSON.stringify(user));
-        return { success: true, message: 'Acceso concedido (sistema)', role: user.role};
-      }
+  // Guarda el token en localStorage y actualiza los observables
+  guardarToken(token: string, username: string): void {
+    localStorage.setItem('token', token);
+    localStorage.setItem('username', username);
 
-  const clientes = JSON.parse(localStorage.getItem('clientes_registrados') || '[]');
-  const cliente = clientes.find((c: any) => c.username === username && c.password === password);
-
-  if (cliente) {
-    
-
-    if(!cliente.activo) {
-      
-      return { success: false, message: 'Tu cuenta está inactiva. No puedes iniciar sesión.' };
-    }
-
+    this.tokenSubject.next(token);
+    this.currentUserSubject.next(username);
     this.isAuthenticatedSubject.next(true);
-    this.currentUserSubject.next(cliente.nombre);
-    this.currentRoleSubject.next(cliente.role); // 'user'
-    return { success: true, message: 'Acceso concedido (cliente)', role: cliente.role };
-  }
-  
-    return { success: false, message: 'Usuario o contraseña incorrectos' };
   }
 
-     logout(): void {
-      this.isAuthenticatedSubject.next(false);
-      this.currentUserSubject.next('');
-      this.currentRoleSubject.next(''); 
-    }
+  // Elimina los datos del usuario
+  logout(): void {
+    localStorage.clear();
+    this.tokenSubject.next('');
+    this.currentUserSubject.next('');
+    this.isAuthenticatedSubject.next(false);
+  }
 
-    getCurrentUser(): string {
-    return this.currentUserSubject.value || 'No hay usuario'; 
-    }
-  
-    getCurrentRole(): string {
-      return this.currentRoleSubject.value; 
-    }
+  // Devuelve el token actual
+  getToken(): string | null {
+    return localStorage.getItem('token');
+  }
 
-    isLoggedIn(): boolean {
-      return this.isAuthenticatedSubject.value;
-    }
+  // Verifica si hay un token válido
+  isLoggedIn(): boolean {
+    return !!this.getToken();
+  }
 
-    
+  // Devuelve el nombre del usuario desde localStorage o token
+  getCurrentUser(): string {
+    return this.currentUserSubject.value || this.getUsernameFromToken() || 'No hay usuario';
+  }
+
+  // Devuelve el rol actual desde el token JWT
+  getRoleFromToken(): string | null {
+    const token = this.getToken();
+    if (!token) return null;
+
+    try {
+      const decoded = jwtDecode<TokenPayload>(token);
+      return decoded['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'] || null;
+    } catch (e) {
+      console.error('Error al decodificar el token:', e);
+      return null;
+    }
+  }
+
+  // Extrae el nombre de usuario desde el token JWT
+  private getUsernameFromToken(): string | null {
+    const token = this.getToken();
+    if (!token) return null;
+
+    try {
+      const decoded = jwtDecode<TokenPayload>(token);
+      return decoded['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name'] || null;
+    } catch (e) {
+      console.error('Error al decodificar el token:', e);
+      return null;
+    }
+  }
+
+  // Verifica si hay token al iniciar el servicio
+  private hasToken(): boolean {
+    return !!localStorage.getItem('token');
+  }
 }
 
+// Interfaz para mapear el contenido del token
+interface TokenPayload {
+  'http://schemas.microsoft.com/ws/2008/06/identity/claims/role'?: string;
+  'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name'?: string;
+  exp?: number;
+  iss?: string;
+}

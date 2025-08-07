@@ -23,14 +23,17 @@ export class EditarProductoComponent {
   ];
 
   constructor(
-    private dialogRef: MatDialogRef<EditarProductoComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: Producto 
-  ) {
-
-    this.imagenURL = data.imagen; 
-    this.imagenOriginal = data.imagen;
-
+  private dialogRef: MatDialogRef<EditarProductoComponent>,
+  @Inject(MAT_DIALOG_DATA) public data: Producto 
+) {
+  // Si ya viene en base64 desde el backend
+  if (data.imagen) {
+    this.imagenURL = `data:image/jpeg;base64,${data.imagen}`;
   }
+
+  this.imagenOriginal = this.imagenURL;
+}
+
 
   getImagenURL(nombreImagen: string): string {
   return `/assets/img/${nombreImagen}`;
@@ -47,11 +50,24 @@ export class EditarProductoComponent {
     }
   }
 
-  guardar() {
-    this.dialogRef.close(this.data); 
+guardar() {
+  // Si el usuario cargó una nueva imagen
+  if (this.imagenURL && typeof this.imagenURL === 'string' && this.imagenURL !== this.imagenOriginal) {
+    const base64 = this.imagenURL.split(',')[1];
+    this.data.imagenBase64 = base64;
+    this.data.imagen = base64;
+  } else {
+    // El usuario NO cargó una nueva imagen → conserva la actual
+    const base64 = (this.imagenOriginal as string)?.split(',')[1];
+    this.data.imagenBase64 = base64;
+    this.data.imagen = base64;
   }
 
-  cancelar() {
-    this.dialogRef.close();
-  }
+  this.dialogRef.close(this.data);
+}
+
+cancelar(): void {
+  this.dialogRef.close();
+}
+
 }

@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { Transportista } from '../../../../core/modelo/transportista';
+import { TransportistaService } from '../../../../services/transportista.service';
 
 
 @Component({
@@ -15,20 +17,45 @@ import { FormsModule } from '@angular/forms';
 
 export class RegistrarTransportistaComponent {
 
-  constructor(private dialogRef: MatDialogRef<RegistrarTransportistaComponent>) {}
+  transportista: Transportista = {
+    id_Transportista: 0,
+    nombre_Completo: '',
+    correo_Electronico: '',
+    cedula: '',
+    empresa: '',
+    telefono: '',
+    estado: true,
+   transaccion: 'INSERTAR_TRANSPORTISTA'
+  };
 
-      transportista = {
-        nombre: '',
-        correo: '',
-        cedula: '',
-        empresa: '',
-        telefono: '',
-        activo: true,
-        rol: 'Transportista'
-      };
-      
+  constructor(
+    private dialogRef: MatDialogRef<RegistrarTransportistaComponent>,
+    private transportistaService: TransportistaService
+  ) {}
+
   guardar() {
-    this.dialogRef.close(this.transportista);
+    /*this.transportistaService.insertarTransportista(this.transportista).subscribe({
+      next: () => this.dialogRef.close(true),
+      error: err => {
+        console.error('Error al registrar transportista:', err);
+        alert('Error al registrar transportista.');
+      }*/
+     this.transportista.transaccion = 'INSERTAR_TRANSPORTISTA';
+
+  console.log("JSON que se envía:", this.transportista);
+
+  this.transportistaService.insertarTransportista(this.transportista).subscribe({
+    next: () => {
+      alert('Transportista registrado con éxito.');
+      this.dialogRef.close(true);
+    },
+    error: err => {
+      console.error('Error al registrar transportista:', err);
+      alert('Error al registrar transportista.');
+    }
+      
+    });
+    console.log(this.transportista);
   }
 
   cancelar() {

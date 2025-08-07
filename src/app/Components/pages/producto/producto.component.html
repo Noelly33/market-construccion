@@ -14,20 +14,22 @@
         <th>Precio ($)</th>
         <th>Stock</th>
         <th>Imagen</th>
+        <th>Estado</th>
         <th>Acciones</th>
       </tr>
     </thead>
     <tbody>
       <tr *ngFor="let p of datosFiltrados">
-        <td>{{ p.nombre }}</td>
-        <td>{{ p.precio }}</td>
+        <td>{{ p.nombreProducto }}</td>
+        <td>{{ p.precioVenta }}</td>
         <td>{{ p.stock }}</td>
-         <td>
-            <img *ngIf="p.imagen" [src]="p.imagen" alt="Imagen del producto" width="100" height="100" />
-         </td>
+        <td>
+          <img *ngIf="p.imagen" [src]="getImagenSrc(p.imagen)" alt="Imagen del producto" width="100" height="100" />
+        </td>
+        <td>{{ p.estado ? 'Activo' : 'Inactivo' }}</td>
         <td>
           <button class="btn btn-sm btn-primary me-1" (click)="editar(p)">Modificar</button>
-          <button class="btn btn-sm btn-danger" (click)="eliminar(p.id)">Eliminar</button>
+          <button class="btn btn-sm btn-danger" (click)="eliminar(p)">Eliminar</button>
         </td>
       </tr>
       <tr *ngIf="productos.length === 0">
